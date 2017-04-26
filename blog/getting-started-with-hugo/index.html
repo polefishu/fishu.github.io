@@ -2,7 +2,6 @@
 <html lang="en-US">
 
 <head>
-	<meta name="generator" content="Hugo 0.20.2" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <meta name="HandheldFriendly" content="True">
@@ -14,20 +13,20 @@
 
     <meta property="twitter:site" content="@example">
 
-<meta property="twitter:title" content="Cocoa Enhanced">
+<meta property="twitter:title" content="Getting Started with Hugo">
 
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:image" content="http://fishu.cn/img/banner.png">
 
-<meta property="twitter:description" content="鱼吠">
+<meta property="twitter:description" content="">
 
 <title>
 
 
-    Cocoa Enhanced
+     Cocoa Enhanced - Getting Started with Hugo 
 
 </title>
-<link rel="canonical" href="http://fishu.cn/">
+<link rel="canonical" href="http://fishu.cn/blog/getting-started-with-hugo/">
 
 
 <style media="screen">
@@ -965,8 +964,6 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 
 
 
-  <link href="http://fishu.cn/index.xml" rel="alternate" type="application/rss+xml" title="Cocoa Enhanced" />
-
 
 </head>
 
@@ -974,7 +971,7 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 <body>
 
 
-<section class="header header-home">
+<section class="header">
 
     <div class="container">
         <a href="http://fishu.cn/"><img class="logo" src="http://fishu.cn/img/logo.png" alt="logo" /></a>
@@ -1013,101 +1010,149 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
     </div>
 </section>
 
-<section class="main">
+
+<section class="main post non-narrow zero-top-spacing">
     <div class="container">
         <div class="content">
-            
-                <div class="markdown">
-                <p><em>有时间好好写Blog的，一定是工作不饱和的。</em></p>
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
 
-<p>这里是 <strong>鱼吠</strong>。  想象一下🐟的怒吼:</p>
+    Getting Started with Hugo
+
+</div>
 
                 </div>
+                <div class="meta">
+                    <div class="date" title="Wed Apr 2 2014 00:00:00 UTC">Apr 2, 2014</div>
+                    
+                        
+                    
+                    <div class="reading-time"><div class="middot"></div>2 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <div class="middot"></div>
+                            <li><a href="http://fishu.cn/tags/go">go</a> </li>
+                          
+                            <div class="middot"></div>
+                            <li><a href="http://fishu.cn/tags/golang">golang</a> </li>
+                          
+                            <div class="middot"></div>
+                            <li><a href="http://fishu.cn/tags/hugo">hugo</a> </li>
+                          
+                            <div class="middot"></div>
+                            <li><a href="http://fishu.cn/tags/development">development</a> </li>
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="markdown">
+                
+    
+    
+
+<h2 id="step-1-install-hugo">Step 1. Install Hugo</h2>
+
+<p>Goto <a href="https://github.com/spf13/hugo/releases">hugo releases</a> and download the
+appropriate version for your os and architecture.</p>
+
+<p>Save it somewhere specific as we will be using it in the next step.</p>
+
+<p>More complete instructions are available at <a href="http://fishu.cn/overview/installing/">installing hugo</a></p>
+
+<h2 id="step-2-build-the-docs">Step 2. Build the Docs</h2>
+
+<p>Hugo has its own example site which happens to also be the documentation site
+you are reading right now.</p>
+
+<p>Follow the following steps:</p>
+
+<ol>
+<li>Clone the <a href="http://github.com/spf13/hugo">hugo repository</a></li>
+<li>Go into the repo</li>
+<li>Run hugo in server mode and build the docs</li>
+<li>Open your browser to <a href="http://localhost:1313">http://localhost:1313</a></li>
+</ol>
+
+<p>Corresponding pseudo commands:</p>
+
+<pre><code>git clone https://github.com/spf13/hugo
+cd hugo
+/path/to/where/you/installed/hugo server --source=./docs
+&gt; 29 pages created
+&gt; 0 tags index created
+&gt; in 27 ms
+&gt; Web Server is available at http://localhost:1313
+&gt; Press ctrl+c to stop
+</code></pre>
+
+<p>Once you&rsquo;ve gotten here, follow along the rest of this page on your local build.</p>
+
+<h2 id="step-3-change-the-docs-site">Step 3. Change the docs site</h2>
+
+<p>Stop the Hugo process by hitting ctrl+c.</p>
+
+<p>Now we are going to run hugo again, but this time with hugo in watch mode.</p>
+
+<pre><code>/path/to/hugo/from/step/1/hugo server --source=./docs --watch
+&gt; 29 pages created
+&gt; 0 tags index created
+&gt; in 27 ms
+&gt; Web Server is available at http://localhost:1313
+&gt; Watching for changes in /Users/spf13/Code/hugo/docs/content
+&gt; Press ctrl+c to stop
+</code></pre>
+
+<p>Open your <a href="http://vim.spf13.com">favorite editor</a> and change one of the source
+content pages. How about changing this very file to <em>fix the typo</em>. How about changing this very file to <em>fix the typo</em>.</p>
+
+<p>Content files are found in <code>docs/content/</code>. Unless otherwise specified, files
+are located at the same relative location as the url, in our case
+<code>docs/content/overview/quickstart.md</code>.</p>
+
+<p>Change and save this file.. Notice what happened in your terminal.</p>
+
+<pre><code>&gt; Change detected, rebuilding site
+
+&gt; 29 pages created
+&gt; 0 tags index created
+&gt; in 26 ms
+</code></pre>
+
+<p>Refresh the browser and observe that the typo is now fixed.</p>
+
+<p>Notice how quick that was. Try to refresh the site before it&rsquo;s finished building.. I double dare you.
+Having nearly instant feedback enables you to have your creativity flow without waiting for long builds.</p>
+
+<h2 id="step-4-have-fun">Step 4. Have fun</h2>
+
+<p>The best way to learn something is to play with it.</p>
+
+
+                <br>
+            </div>
             
-
-            
-                <div class="posts">
-                
-                
-                    <div class="page-heading">Latest posts</div>
-                    <ul>
+                <div class="navigation">
                     
-                        <li class="groupby">Sep, 2015</li>
-                        
-                            <li class="post-item">
-    <span class="meta">Sep 28, 2015</span>
-    <a href="http://fishu.cn/blog/example-article/"><span>Example article</span></a>
-</li>
-
-                        
+                    <div style="width: 100%;"></div>
                     
-                        <li class="groupby">Sep, 2014</li>
-                        
-                            <li class="post-item">
-    <span class="meta">Sep 28, 2014</span>
-    <a href="http://fishu.cn/blog/creating-a-new-theme/"><span>Creating a New Theme</span></a>
-</li>
-
-                        
+                    <div>
+                        <a href="http://fishu.cn/blog/hugo-template-primer/">(Hu)go Template Primer</a>
+                        <img class="icon" src="http://fishu.cn/img/next.svg" alt="next" />
+                    </div>
                     
-                        <li class="groupby">Apr, 2014</li>
-                        
-                            <li class="post-item">
-    <span class="meta">Apr 2, 2014</span>
-    <a href="http://fishu.cn/blog/getting-started-with-hugo/"><span>Getting Started with Hugo</span></a>
-</li>
-
-                        
-                            <li class="post-item">
-    <span class="meta">Apr 2, 2014</span>
-    <a href="http://fishu.cn/blog/hugo-template-primer/"><span>(Hu)go Template Primer</span></a>
-</li>
-
-                        
-                    
-                    </ul>
-
-                    
-                
                 </div>
             
-
-            <div class="best-posts">
-            
-            
-                <div class="page-heading">Best posts</div>
-                <ul>
+            <br>
+            <div class="disqus">
                 
-                    
-                
-                    
-                
-                    
-                        <li class="post-item">
-    <span class="meta">Sep 28, 2015</span>
-    <a href="http://fishu.cn/blog/example-article/"><span>Example article</span></a>
-</li>
-
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                </ul>
-            
             </div>
         </div>
     </div>
 </section>
+
 <section class="footer">
     <div class="container">
         <div class="copyright">
@@ -1187,5 +1232,4 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 
 </body>
 </html>
-
 
