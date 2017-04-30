@@ -7,33 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Fishu</copyright>
-    <lastBuildDate>Wed, 02 Apr 2014 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 30 Apr 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>(Hu)go Template Primer</title>
-      <link>http://fishu.cn/blog/hugo-template-primer/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <title>【译】Go 命名规范</title>
+      <link>http://fishu.cn/blog/%E8%AF%91go-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/</link>
+      <pubDate>Sun, 30 Apr 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://fishu.cn/blog/hugo-template-primer/</guid>
-      <description>Hugo uses the excellent go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in go templates.
-This document is a brief primer on using go templates.</description>
-    </item>
-    
-    <item>
-      <title>Getting Started with Hugo</title>
-      <link>http://fishu.cn/blog/getting-started-with-hugo/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://fishu.cn/blog/getting-started-with-hugo/</guid>
-      <description>Step 1. Install Hugo Goto hugo releases and download the appropriate version for your os and architecture.
-Save it somewhere specific as we will be using it in the next step.
-More complete instructions are available at installing hugo
-Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.
-Follow the following steps:
- Clone the hugo repository Go into the repo Run hugo in server mode and build the docs Open your browser to http://localhost:1313  Corresponding pseudo commands:</description>
+      <guid>http://fishu.cn/blog/%E8%AF%91go-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/</guid>
+      <description>原文 What&amp;rsquo;s in a name 略有删改
+ 【译】Go 命名规范 在写代码的时候，常常不知道怎么命名一个package，一个 struct，一个interface，这遍文章将给你一些建议。
+Good names 一个好的名字应该是这样：
+ 统一（容易猜测含义） 简短（敲起来方便） 精准 （容易理解）  一个原则 名字定义的地方和它使用的地方相聚越远，那么它就应该越长，越长，定义越精确，它的用途就容易猜测。
+使用驼峰法 Go 中的名字应该使用驼峰法命名，一些IDE在你命名一个变量时，如果你的变量命名不规范，会帮你指出来，比如微软的良心之作：code，在装了Go 插件后会实时提醒。（不要这样命名：names_with_underscores），所有的缩略词都要大些，比如 ServeHTTP 和 IDProcessor。
+本地变量 保持它们简短，长的名字让代码难以理解。比如：
+ 建议用 i 表示 index 建议用 r 表示 reader  Bad：
+func RuneCount(buffer []byte) int { index, count := 0, 0 for index &amp;lt; len(buffer) { if buffer[index] &amp;lt; RuneSelf { index++ } else { _, size := DecodeRune(buffer[index:]) index += size } count++ } return count }  Good：</description>
     </item>
     
   </channel>
