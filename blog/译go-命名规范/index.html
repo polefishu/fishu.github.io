@@ -23,7 +23,7 @@
 <title>
 
 
-     Cocoa Enhanced - 【译】Go 命名规范 
+     鱼吠 - 【译】Go 命名规范 
 
 </title>
 <link rel="canonical" href="http://fishu.cn/blog/%E8%AF%91go-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/">
@@ -976,7 +976,7 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
     <div class="container">
         <a href="http://fishu.cn/"><img class="logo" src="http://fishu.cn/img/logo.png" alt="logo" /></a>
         <div class="content">
-            <a href="http://fishu.cn/"><div class="name"><h1>Cocoa Enhanced</h1></div></a>
+            <a href="http://fishu.cn/"><div class="name"><h1>鱼吠</h1></div></a>
             <nav>
                 <ul>
                     
@@ -1048,14 +1048,14 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
     
 
 <blockquote>
-<p>原文 <a href="https://talks.golang.org/2014/names.slide">What&rsquo;s in a name</a> 略有删改</p>
+<p><em>原文 <a href="https://talks.golang.org/2014/names.slide">What&rsquo;s in a name</a> 略有删改</em></p>
 </blockquote>
 
-<h1 id="译-go-命名规范">【译】Go 命名规范</h1>
+<p><br></p>
 
 <p>在写代码的时候，常常不知道怎么命名一个package，一个 struct，一个interface，这遍文章将给你一些建议。</p>
 
-<h2 id="good-names">Good names</h2>
+<h3 id="good-names">Good names</h3>
 
 <p>一个好的名字应该是这样：</p>
 
@@ -1065,15 +1065,15 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 <li>精准 （容易理解）</li>
 </ul>
 
-<h2 id="一个原则">一个原则</h2>
+<h3 id="一个原则">一个原则</h3>
 
 <p>名字定义的地方和它使用的地方相聚越远，那么它就应该越长，越长，定义越精确，它的用途就容易猜测。</p>
 
-<h2 id="使用驼峰法">使用驼峰法</h2>
+<h3 id="使用驼峰法">使用驼峰法</h3>
 
 <p>Go 中的名字应该使用驼峰法命名，一些IDE在你命名一个变量时，如果你的变量命名不规范，会帮你指出来，比如微软的良心之作：code，在装了Go 插件后会实时提醒。（不要这样命名：names_with_underscores），所有的缩略词都要大些，比如 ServeHTTP 和 IDProcessor。</p>
 
-<h3 id="本地变量">本地变量</h3>
+<h4 id="本地变量">本地变量</h4>
 
 <p>保持它们简短，长的名字让代码难以理解。比如：</p>
 
@@ -1084,7 +1084,7 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 
 <p>Bad：</p>
 
-<pre><code>func RuneCount(buffer []byte) int {
+<pre><code class="language-go">func RuneCount(buffer []byte) int {
     index, count := 0, 0
     for index &lt; len(buffer) {
         if buffer[index] &lt; RuneSelf {
@@ -1101,7 +1101,7 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 
 <p>Good：</p>
 
-<pre><code>func RuneCount(b []byte) int {
+<pre><code class="language-go">func RuneCount(b []byte) int {
     i, n := 0, 0
     for i &lt; len(b) {
         if b[i] &lt; RuneSelf {
@@ -1116,39 +1116,39 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 }
 </code></pre>
 
-<h3 id="参数">参数</h3>
+<h4 id="参数">参数</h4>
 
 <p>函数的参数和本地变量一样，但是有一点：它们会出现在文档中。
 所以当参数的类型都不一致时，它们应该简写：</p>
 
-<pre><code>func AfterFunc(d Duration, f func()) *Timer
+<pre><code class="language-go">func AfterFunc(d Duration, f func()) *Timer
 
 func Escape(w io.Writer, s []byte)
 </code></pre>
 
 <p>但是当一个类型描述了多个参数时，命名就得文档化：</p>
 
-<pre><code>func Unix(sec, nsec int64) Time
+<pre><code class="language-go">func Unix(sec, nsec int64) Time
 
 func HasPrefix(s, prefix []byte) bool
 </code></pre>
 
-<h3 id="返回值">返回值</h3>
+<h4 id="返回值">返回值</h4>
 
 <p>可导出的函数的返回值，通常会出现在文档中，如果使用简写，调用者会不知道返回值啥意思，代表了啥，所以需要文档化。
 举几个例子：</p>
 
-<pre><code>func Copy(dst Writer, src Reader) (written int64, err error)
+<pre><code class="language-go">func Copy(dst Writer, src Reader) (written int64, err error)
 
 func ScanBytes(data []byte, atEOF bool) (advance int, token []byte, err error)
 
 </code></pre>
 
-<h3 id="receivers">Receivers</h3>
+<h4 id="receivers">Receivers</h4>
 
 <p>Receivers的命名有些争议，依照惯例，我们使用一到两个字符代表receiver 的类型，考虑到如果你定义了多个方法，那么实现方法的时候reveiver 几乎会在每一行中出现。</p>
 
-<pre><code>func (b *Buffer) Read(p []byte) (n int, err error)
+<pre><code class="language-go">func (b *Buffer) Read(p []byte) (n int, err error)
 
 func (sh serverHandler) ServeHTTP(rw ResponseWriter, req *Request)
 
@@ -1157,24 +1157,24 @@ func (r Rectangle) Size() Point
 
 <p>记住：保持Reveiver 名字一致，不要一个地方用r，另一个地方用rdr。</p>
 
-<h3 id="exported-package-level-names">Exported package-level names</h3>
+<h4 id="exported-package-level-names">Exported package-level names</h4>
 
 <p>我们在另一个包中引用依赖的包变量时，我们通常这样：包名.变量名。
 所以不要在变量名中附带了包的名字：
 我们有bytes.Buffer 和 strings.Reader，而不是bytes.ByteBuffer 和 strings.StringReader。</p>
 
-<h3 id="接口类型">接口类型</h3>
+<h4 id="接口类型">接口类型</h4>
 
 <p>如果接口中只有一个方法，我们通常把方法名后面接一个&rsquo;er&rsquo;来表示一个接口名。</p>
 
-<pre><code>type Reader interface {
+<pre><code class="language-go">type Reader interface {
     Read(p []byte) (n int, err error)
 }
 </code></pre>
 
 <p>即使从英文的角度来看，它没啥含义，但是我们不管这个。如果适当的调整可以更好看，那么就做吧。</p>
 
-<pre><code>type Execer interface {
+<pre><code class="language-go">type Execer interface {
     Exec(query string, args []Value) (Result, error)
 }
 
@@ -1189,21 +1189,21 @@ type ByteReader interface {
 
 <p>错误类型应该如 FooError:</p>
 
-<pre><code>type ExitError struct {
+<pre><code class="language-go">type ExitError struct {
     ...
 }
 </code></pre>
 
 <p>错误变量的值如 ErrFoo:</p>
 
-<pre><code>var ErrFormat = errors.New(&quot;image: unknown format&quot;)
+<pre><code class="language-go">var ErrFormat = errors.New(&quot;image: unknown format&quot;)
 </code></pre>
 
-<h3 id="包">包</h3>
+<h4 id="包">包</h4>
 
 <p>全部使用小写，尽量不要使用复数，避免src、gosrc、util、common这些，选择对其导出的名称具有意义的包名称。</p>
 
-<h3 id="引入路径">引入路径</h3>
+<h4 id="引入路径">引入路径</h4>
 
 <p>包路径最后的内容应该和包名保持一致。
 避免大写。</p>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Cocoa Enhanced</title>
+    <title>鱼吠</title>
     <link>http://fishu.cn/</link>
-    <description>Recent content on Cocoa Enhanced</description>
+    <description>Recent content on 鱼吠</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Fishu</copyright>
@@ -19,7 +19,8 @@
       
       <guid>http://fishu.cn/blog/%E8%AF%91go-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/</guid>
       <description>原文 What&amp;rsquo;s in a name 略有删改
- 【译】Go 命名规范 在写代码的时候，常常不知道怎么命名一个package，一个 struct，一个interface，这遍文章将给你一些建议。
+ 
+在写代码的时候，常常不知道怎么命名一个package，一个 struct，一个interface，这遍文章将给你一些建议。
 Good names 一个好的名字应该是这样：
  统一（容易猜测含义） 简短（敲起来方便） 精准 （容易理解）  一个原则 名字定义的地方和它使用的地方相聚越远，那么它就应该越长，越长，定义越精确，它的用途就容易猜测。
 使用驼峰法 Go 中的名字应该使用驼峰法命名，一些IDE在你命名一个变量时，如果你的变量命名不规范，会帮你指出来，比如微软的良心之作：code，在装了Go 插件后会实时提醒。（不要这样命名：names_with_underscores），所有的缩略词都要大些，比如 ServeHTTP 和 IDProcessor。
@@ -34,7 +35,7 @@ func RuneCount(buffer []byte) int { index, count := 0, 0 for index &amp;lt; len(
       <pubDate>Wed, 26 Apr 2017 00:00:00 +0000</pubDate>
       
       <guid>http://fishu.cn/about/</guid>
-      <description>Hey，我是fishu，goper，老家广德，现在上海，欢迎来到我的Blog。欢迎用gmail和我交流。</description>
+      <description>Hey，我是fishu，goper，老家广德，现在上海，大学学的电气工程，凑巧学校和中科院软件研究所合作“卓越工程师”项目，开办第一届卓越工程师班，在大三的时候加入卓越班，我投身Linux，捧起了键盘吃起了饭。欢迎来到我的Blog。欢迎用gmail和我交流。</description>
     </item>
     
     <item>
