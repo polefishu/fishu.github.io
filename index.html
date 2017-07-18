@@ -2,7 +2,7 @@
 <html lang="en-US">
 
 <head>
-	<meta name="generator" content="Hugo 0.20.2" />
+	<meta name="generator" content="Hugo 0.25.1" />
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <meta name="HandheldFriendly" content="True">
@@ -14,13 +14,19 @@
 
     <meta property="twitter:site" content="@fishpoleshu">
 
+<meta property="og:site_name" content="鱼吠" />
+<meta property="og:locale" content="nn_NO" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://fishu.cn/" />
+<meta property="og:title" content="鱼吠" />
 <meta property="twitter:title" content="鱼吠">
 
+    <meta property="og:image" content="http://fishu.cn/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:image" content="http://fishu.cn/img/banner.png">
 
+<meta property="og:description" content="鱼吠">
 <meta property="twitter:description" content="鱼吠">
-
 <title>
 
 
@@ -33,7 +39,7 @@
 <style media="screen">
   @font-face {
   font-family: 'Nexa Bold';
-  src: url('/fonts/Nexa Bold.otf');
+  src: url('http://fishu.cn/fonts/Nexa Bold.otf');
 }
 
 html, body, div, span, applet, object, iframe,
@@ -528,12 +534,6 @@ section.main .content .markdown pre {
   word-break: break-all;
   word-wrap: break-word;
 }
-@media (min-width: 769px) {
-  section.main .content .markdown pre {
-    width: 110%;
-    margin-left: -4%;
-  }
-}
 section.main .content .markdown pre code {
   /* enclosed by 4 backticks (````) */
   padding: 0;
@@ -658,6 +658,7 @@ section.main .content .navigation {
   -moz-align-items: center;
   -ms-align-items: center;
   align-items: center;
+  padding: 2em;
 }
 section.main .content .navigation div {
   display: -webkit-flex;
@@ -681,10 +682,33 @@ section.main .content .navigation .icon {
 }
 section.main .content .navigation a {
   width: 250px;
-  margin-left: 1em;
+  margin: 0 1em;
   text-align: center;
   font-style: italic;
   color: #313537;
+}
+section.main .content .share, section.main .content .share div {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  justify-content: center;
+}
+section.main .content .share {
+  background-color: rgba(152, 152, 152, 0.07);
+  padding: 1em 0;
+}
+section.main .content .share a {
+  margin: 0 6px;
 }
 
 /* Fonts */
@@ -868,6 +892,10 @@ max-width: 110%;
 width: 110%;
 margin-left: -4%;
 }
+section.main .content .markdown pre {
+width: 110%;
+margin-left: -4%;
+}
 </style>
 
 <noscript>
@@ -886,6 +914,8 @@ margin-left: -4%;
   <style type="text/css" media="screen">
     .progressive{overflow:hidden;position:relative;background:#efefef}.progressive__img{width:100%;height:100%;position:absolute;-webkit-transform:translateZ(0);transform:translateZ(0)}.progressive--not-loaded{filter:blur(30px);-webkit-filter:blur(30px)}.progressive--is-loaded{filter:blur(20px);-webkit-filter:blur(20px);-webkit-animation:sharpen .5s both;animation:sharpen .5s both}@-webkit-keyframes sharpen{from{filter:blur(20px);-webkit-filter:blur(20px)}to{filter:blur(0);-webkit-filter:blur(0)}}@keyframes sharpen{from{filter:blur(20px);-webkit-filter:blur(20px)}to{filter:blur(0);-webkit-filter:blur(0)}}
   </style>
+
+
 
 
 
@@ -951,7 +981,13 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 .hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition {
     color: #97d28b;
 }
+
+.ssk {
+    background-color: #6a7a8b;
+}
   </style>
+
+
 
 
 
@@ -985,8 +1021,6 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
                     
                         <a href="http://fishu.cn/blog/"><li>Blog</li></a>
                     
-                    
-                        
                     
                         
                             
@@ -1032,6 +1066,15 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
                     <div class="page-heading">Latest posts</div>
                     <ul>
                     
+                        <li class="groupby">Jul, 2017</li>
+                        
+                            <li class="post-item">
+    <span class="meta">Jul 18, 2017</span>
+    <a href="http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/"><span>Go Package Layout 参考</span></a>
+</li>
+
+                        
+                    
                         <li class="groupby">Apr, 2017</li>
                         
                             <li class="post-item">
@@ -1053,6 +1096,14 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
             
                 <div class="page-heading">Best posts</div>
                 <ul>
+                
+                    
+                        <li class="post-item">
+    <span class="meta">Jul 18, 2017</span>
+    <a href="http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/"><span>Go Package Layout 参考</span></a>
+</li>
+
+                    
                 
                     
                         <li class="post-item">
@@ -1080,14 +1131,21 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 </section>
 <section class="footer">
     <div class="container">
+
+        
+
         <div class="copyright">
 
         
-            <a href="http://fishu.cn/license">Copyright © 2017 Fishu</a>
+            
+                <a href="http://fishu.cn/license">Copyright © 2017 Fishu</a>
+            
         
 
         </div>
         <div class="icons">
+
+        
 
         
             <a href="https://github.com/polefishu" target="_blank">
@@ -1143,6 +1201,11 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 
 
 
+
+
+
+
+
 <script>
   window.onload = function() {
     
@@ -1150,6 +1213,7 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
     
     
       progressively.init({delay: 30, throttle: 50});
+    
     
   };
 </script>

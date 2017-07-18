@@ -7,10 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Fishu</copyright>
-    <lastBuildDate>Sun, 30 Apr 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Jul 2017 20:26:38 +0800</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/categories/golang/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Go Package Layout 参考</title>
+      <link>http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/</link>
+      <pubDate>Tue, 18 Jul 2017 20:26:38 +0800</pubDate>
+      
+      <guid>http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/</guid>
+      <description>想让你的 Go 代码 简洁明了，你需要做好下面两点：
+ 命名
+ package layout
+  命名我在上一篇文章里面讲到了，这次我想分享下自己在 Go 语言 package 设计方面的实践。
+package 在 Go 中是这样定义的：包含一个或者多个以.go结尾的文件，同时这些文件都有同一个 package 名并且处于同一个目录中。简单来说就是一个文件夹中放了几个 package 名字相同的 go 文件，package 在 go 中是有独立命名空间的，它里面的全局变量是与其他 package 隔离的，Go不是一门类似 java 这类面向对象的语言，他的设计哲学是模块化，package 是 Go 程序结构层面的唯一组织形式，它将设计、语法、命名、构建、链接和测试都聚于一包中，导入和使用非常简单，所以无 package 不成 Go ，要写出牛逼的代码，必须理解 package 机制，Go coding in go way。
+一开始写Go的时候，我总喜欢把所有的东西都放在一个包中，导致这个包臃肿而巨大，往往都是以文件名来隔离函数功能，比如说：models.go里面通通放定义的结构体，handlers.go通通都是处理方法，这么做有啥好处呢，显而易见：不用操心依赖，因为你根本没有依赖，这在小的程序之中行的通，但是在大型项目中，这么做，别人是无法维护你的代码的，代码也不能复用，因为你的代码没有功能化，模块化，别人无法引入，还有的做法就是以模块来分离代码，什么意思呢，比如说：你有一个users包和一个accounts包，在users包里面肯定得放User结构体了，那么别人引用这个User就得写出这样的代码：users.User，你的结构体名字中包含了包名，我相信名字是最好的文档，也是代码质量的一个检测指标，这样的做法是不好的，当然这样做最大的问题就是可能会带来循环引用的问题。
+因为 Go 目前还处于蓬勃发展期，可能越往后，package 管理的方案也越成熟， 对于 Go package layout 没有完美无缺的方案，这里我将给出一种我总结出来的解决方案，它对于同时包含 lib库和二进制程序的项目十分好用。
+先把 layout 贴出来 大家有个直观的感受： 项目目录 foo/ 下有cmd、pkg、vendor 三个顶层目录，cmd 下放置你的二进制程序，pkg 下放置你的 lib 代码，vendor里面管理你的依赖。关于cmd下二进制程序的管理，我推荐使用 Cobra ，使用 Cobra 你可很方便的生成具有层叠子命令的二进制程序。在pkg 目录的 lib库组织，推荐大家看下 Bob 大牛的The Clean Architecture，我简单说下，具体的大家去看原文。你可以现在pkg目录下放置一个最基础的 package ，只有struct或者interface，如：</description>
+    </item>
     
     <item>
       <title>【译】Go 命名规范</title>

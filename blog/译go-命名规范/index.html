@@ -13,13 +13,19 @@
 
     <meta property="twitter:site" content="@fishpoleshu">
 
+<meta property="og:site_name" content="鱼吠" />
+<meta property="og:locale" content="nn_NO" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://fishu.cn/blog/%E8%AF%91go-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" />
+<meta property="og:title" content="【译】Go 命名规范" />
 <meta property="twitter:title" content="【译】Go 命名规范">
 
+    <meta property="og:image" content="http://fishu.cn/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:image" content="http://fishu.cn/img/banner.png">
 
+<meta property="og:description" content="">
 <meta property="twitter:description" content="">
-
 <title>
 
 
@@ -32,7 +38,7 @@
 <style media="screen">
   @font-face {
   font-family: 'Nexa Bold';
-  src: url('/fonts/Nexa Bold.otf');
+  src: url('http://fishu.cn/fonts/Nexa Bold.otf');
 }
 
 html, body, div, span, applet, object, iframe,
@@ -527,12 +533,6 @@ section.main .content .markdown pre {
   word-break: break-all;
   word-wrap: break-word;
 }
-@media (min-width: 769px) {
-  section.main .content .markdown pre {
-    width: 110%;
-    margin-left: -4%;
-  }
-}
 section.main .content .markdown pre code {
   /* enclosed by 4 backticks (````) */
   padding: 0;
@@ -657,6 +657,7 @@ section.main .content .navigation {
   -moz-align-items: center;
   -ms-align-items: center;
   align-items: center;
+  padding: 2em;
 }
 section.main .content .navigation div {
   display: -webkit-flex;
@@ -680,10 +681,33 @@ section.main .content .navigation .icon {
 }
 section.main .content .navigation a {
   width: 250px;
-  margin-left: 1em;
+  margin: 0 1em;
   text-align: center;
   font-style: italic;
   color: #313537;
+}
+section.main .content .share, section.main .content .share div {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  justify-content: center;
+}
+section.main .content .share {
+  background-color: rgba(152, 152, 152, 0.07);
+  padding: 1em 0;
+}
+section.main .content .share a {
+  margin: 0 6px;
 }
 
 /* Fonts */
@@ -867,6 +891,10 @@ max-width: 110%;
 width: 110%;
 margin-left: -4%;
 }
+section.main .content .markdown pre {
+width: 110%;
+margin-left: -4%;
+}
 </style>
 
 <noscript>
@@ -885,6 +913,8 @@ margin-left: -4%;
   <style type="text/css" media="screen">
     .progressive{overflow:hidden;position:relative;background:#efefef}.progressive__img{width:100%;height:100%;position:absolute;-webkit-transform:translateZ(0);transform:translateZ(0)}.progressive--not-loaded{filter:blur(30px);-webkit-filter:blur(30px)}.progressive--is-loaded{filter:blur(20px);-webkit-filter:blur(20px);-webkit-animation:sharpen .5s both;animation:sharpen .5s both}@-webkit-keyframes sharpen{from{filter:blur(20px);-webkit-filter:blur(20px)}to{filter:blur(0);-webkit-filter:blur(0)}}@keyframes sharpen{from{filter:blur(20px);-webkit-filter:blur(20px)}to{filter:blur(0);-webkit-filter:blur(0)}}
   </style>
+
+
 
 
 
@@ -950,7 +980,13 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
 .hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition {
     color: #97d28b;
 }
+
+.ssk {
+    background-color: #6a7a8b;
+}
   </style>
+
+
 
 
 
@@ -982,8 +1018,6 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
                     
                         <a href="http://fishu.cn/blog/"><li>Blog</li></a>
                     
-                    
-                        
                     
                         
                             
@@ -1027,6 +1061,8 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
                     <div class="date" title="Sun Apr 30 2017 00:00:00 UTC">Apr 30, 2017</div>
                     
                         
+                        <div class="author" title="fishu"><div class="middot"></div>fishu</div>
+                        
                     
                     <div class="reading-time"><div class="middot"></div>2 minute read</div>
                     <div class="tags">
@@ -1037,6 +1073,12 @@ section.main .content .markdown pre, section.main .content .markdown pre code {
                           
                             <div class="middot"></div>
                             <li><a href="http://fishu.cn/tags/golang">golang</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
                           
                         </ul>
                     </div>
@@ -1216,30 +1258,63 @@ type ByteReader interface {
                 <br>
             </div>
             
+            
                 <div class="navigation">
                     
                     <div style="width: 100%;"></div>
+                    
+                    <div>
+                        <a href="http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/">Go Package Layout 参考</a>
+                        <img class="icon" src="http://fishu.cn/img/next.svg" alt="next" />
+                    </div>
                     
                 </div>
             
             <br>
             <div class="disqus">
-                
+                <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "shu" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
             </div>
+            
         </div>
     </div>
 </section>
 
 <section class="footer">
     <div class="container">
+
+        
+
         <div class="copyright">
 
         
-            <a href="http://fishu.cn/license">Copyright © 2017 Fishu</a>
+            
+                <a href="http://fishu.cn/license">Copyright © 2017 Fishu</a>
+            
         
 
         </div>
         <div class="icons">
+
+        
 
         
             <a href="https://github.com/polefishu" target="_blank">
@@ -1295,6 +1370,11 @@ type ByteReader interface {
 
 
 
+
+
+
+
+
 <script>
   window.onload = function() {
     
@@ -1302,6 +1382,7 @@ type ByteReader interface {
     
     
       progressively.init({delay: 30, throttle: 50});
+    
     
   };
 </script>
