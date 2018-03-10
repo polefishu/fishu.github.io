@@ -45,13 +45,13 @@
   </url>
   
   <url>
-    <loc>http://fishu.cn/categories/golang/</loc>
+    <loc>http://fishu.cn/tags/golang/</loc>
     <lastmod>2017-07-18T20:26:38+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://fishu.cn/tags/golang/</loc>
+    <loc>http://fishu.cn/categories/golang/</loc>
     <lastmod>2017-07-18T20:26:38+08:00</lastmod>
     <priority>0</priority>
   </url>
