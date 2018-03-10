@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://fishu.cn/projects/projects/</loc>
+    <lastmod>2018-03-09T20:29:37-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/projects/sdf/</loc>
+    <lastmod>2018-03-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/</loc>
     <lastmod>2017-07-18T20:26:38+08:00</lastmod>
   </url>
@@ -15,16 +25,6 @@
   <url>
     <loc>http://fishu.cn/about/</loc>
     <lastmod>2017-04-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/projects/small-project/</loc>
-    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/projects/projects/</loc>
-    <lastmod>2015-08-19T20:29:37-07:00</lastmod>
   </url>
   
   <url>
@@ -66,13 +66,13 @@
   
   <url>
     <loc>http://fishu.cn/projects/</loc>
-    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+    <lastmod>2018-03-09T20:29:37-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://fishu.cn/tags/projects/</loc>
-    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+    <lastmod>2018-03-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -84,7 +84,7 @@
   
   <url>
     <loc>http://fishu.cn/</loc>
-    <lastmod>2017-07-18T20:26:38+08:00</lastmod>
+    <lastmod>2018-03-09T20:29:37-07:00</lastmod>
     <priority>0</priority>
   </url>
   
