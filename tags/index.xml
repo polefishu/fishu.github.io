@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Fishu</copyright>
-    <lastBuildDate>Tue, 18 Jul 2017 20:26:38 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 05 Aug 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Go</title>
       <link>http://fishu.cn/tags/go/</link>
-      <pubDate>Tue, 18 Jul 2017 20:26:38 +0800</pubDate>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://fishu.cn/tags/go/</guid>
       <description></description>
@@ -24,9 +24,18 @@
     <item>
       <title>Golang</title>
       <link>http://fishu.cn/tags/golang/</link>
-      <pubDate>Tue, 18 Jul 2017 20:26:38 +0800</pubDate>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://fishu.cn/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Multiplexer</title>
+      <link>http://fishu.cn/tags/multiplexer/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/tags/multiplexer/</guid>
       <description></description>
     </item>
     

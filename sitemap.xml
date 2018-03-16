@@ -13,6 +13,11 @@
   </url>
   
   <url>
+    <loc>http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%80/</loc>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/</loc>
     <lastmod>2017-07-18T20:26:38+08:00</lastmod>
   </url>
@@ -29,7 +34,7 @@
   
   <url>
     <loc>http://fishu.cn/blog/</loc>
-    <lastmod>2017-07-18T20:26:38+08:00</lastmod>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -40,19 +45,19 @@
   
   <url>
     <loc>http://fishu.cn/tags/go/</loc>
-    <lastmod>2017-07-18T20:26:38+08:00</lastmod>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://fishu.cn/tags/golang/</loc>
-    <lastmod>2017-07-18T20:26:38+08:00</lastmod>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://fishu.cn/categories/golang/</loc>
-    <lastmod>2017-07-18T20:26:38+08:00</lastmod>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -62,6 +67,18 @@
   
   <url>
     <loc>http://fishu.cn/license/</loc>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/multiplexer/</loc>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/categories/net/</loc>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -78,7 +95,7 @@
   
   <url>
     <loc>http://fishu.cn/tags/</loc>
-    <lastmod>2017-07-18T20:26:38+08:00</lastmod>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

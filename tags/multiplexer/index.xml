@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Multiplexer on 鱼吠</title>
+    <link>http://fishu.cn/tags/multiplexer/</link>
+    <description>Recent content in Multiplexer on 鱼吠</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2017 Fishu</copyright>
+    <lastBuildDate>Sat, 05 Aug 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://fishu.cn/tags/multiplexer/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>基于 Go 实现I/O多路复用(一)</title>
+      <link>http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%80/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%80/</guid>
+      <description>可能大家对 Nginx 都不陌生，Nginx 因为它高效的事件模块赢得了众多人的赞赏，Nginx 的事件驱动机制（I/O多路复用）在 Linux 平台下是使用 epoll 来实现，简单来说，epoll 不同于轮询，它会把哪个连接发送了怎样的 I/O 事件通知到我们，今天来说的基于 Go 实现的 I/O 多路复用库 yamux ，没有使用系统级别的事件驱动机制（如：epoll、kqueue），这得益于 Go 廉价的 goroutine 开销，yamux 依赖底层可靠的连接（tcp、unix domain sockets），在可靠的连接之上提供了面向流 I/O 多路复用，其核心思想是在发送数据的时候增加头部信息，附加一层协议。 在 yamux 中，一条连接称为 session，一个 session 可以开启多个数据流，数据流称为 stream。今天先来看下它是如何设计的，下次再分析源码。
+定义帧结构 每一帧数据都需要包含如下的头部：
+ Version(8 bits) Type(8 bits) Flags(16 bits) StreamID(32 bits) Length(32 bits)  一共12个字节，所有的字段都采用大端（big endian）传输。接下来我们解释每个字段的意思。
+Version 字段 顾名思义就是用来指定版本的，目的是为了向后兼容，现在我们可以把他设为0。
+Type 字段 区分消息类型：
+ 0x0 Data - 传输数据 0x1 Window Update - 更新发送者的接收窗口大小 0x2 Ping - 测试 RTT。也可以用来做心跳和 keep-alives 0x3 Go Away - 关闭 session  Flag 字段 配合 type 字段提供额外的信息：</description>
+    </item>
+    
+  </channel>
+</rss>
