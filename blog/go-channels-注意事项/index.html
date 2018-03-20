@@ -15,9 +15,9 @@
 <meta property="og:site_name" content="鱼吠" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://fishu.cn/tags/golang/" />
-<meta property="og:title" content="Golang" />
-<meta property="twitter:title" content="Golang">
+<meta property="og:url" content="http://fishu.cn/blog/go-channels-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" />
+<meta property="og:title" content="go channels 注意事项" />
+<meta property="twitter:title" content="go channels 注意事项">
 
     <meta property="og:image" content="http://fishu.cn/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -29,10 +29,10 @@
 <title>
 
 
-     鱼吠 - Golang 
+     鱼吠 - go channels 注意事项 
 
 </title>
-<link rel="canonical" href="http://fishu.cn/tags/golang/">
+<link rel="canonical" href="http://fishu.cn/blog/go-channels-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
 
 
 <style media="screen">
@@ -1046,8 +1046,6 @@ div.main .content .markdown pre, div.main .content .markdown pre code {
 
 
 
-  <link href="http://fishu.cn/tags/golang/index.xml" rel="alternate" type="application/rss+xml" title="鱼吠" />
-
 
 </head>
 
@@ -1055,7 +1053,7 @@ div.main .content .markdown pre, div.main .content .markdown pre code {
 <body>
 
 
-<div class="header header-home column">
+<div class="header column">
 
     <div class="container">
         
@@ -1094,42 +1092,184 @@ div.main .content .markdown pre, div.main .content .markdown pre code {
     </div>
 </div>
 
-<div class="main column">
+
+<div class="main post non-narrow zero-top-spacing column">
     <div class="container">
         <div class="content">
-            <div class="posts">
-                <div class="page-heading">Posts about Golang</div>
-                <ul>
-                    
-                        <li class="post-item">
-    <span class="meta">Aug 5, 2017</span>
-    <a href="http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%80/"><span>基于 Go 实现I/O多路复用(一)</span></a>
-</li>
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
 
-                    
-                        <li class="post-item">
-    <span class="meta">Jul 18, 2017</span>
-    <a href="http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/"><span>Go Package Layout 参考</span></a>
-</li>
+    go channels 注意事项
 
-                    
-                        <li class="post-item">
-    <span class="meta">May 11, 2017</span>
-    <a href="http://fishu.cn/blog/go-channels-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"><span>go channels 注意事项</span></a>
-</li>
+</div>
 
+                </div>
+                <div class="meta">
+                    <div class="date" title="Thu May 11 2017 00:00:00 UTC">May 11, 2017</div>
                     
-                        <li class="post-item">
-    <span class="meta">Apr 30, 2017</span>
-    <a href="http://fishu.cn/blog/%E8%AF%91go-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/"><span>【译】Go 命名规范</span></a>
-</li>
-
+                        
+                        <div class="author middot" title="fishu">fishu</div>
+                        
                     
-                </ul>
+                    <div class="reading-time middot">1 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="http://fishu.cn/tags/go">go</a> </li>
+                          
+                            <li class="middot"><a href="http://fishu.cn/tags/golang">golang</a> </li>
+                          
+                            <li class="middot"><a href="http://fishu.cn/tags/channels">channels</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div class="markdown">
+                
+    
+    
+
+<p>在 Go 中，channel 分为unbuffered channel和buffered channel 两种，关于如何使用的问题，这里就不做讨论了。主要来记录下注意事项。</p>
+
+<h4 id="unbuffered-channel">unbuffered channel</h4>
+
+<pre><code>package main
+
+func main() {
+	ch := make(chan int)
+	ch &lt;- 1
+	&lt;-ch // 没有这行代码也会报同样的错误
+}
+</code></pre>
+
+<p>运行这段代码会出现以下报错：
+<code>fatal error: all goroutines are asleep - deadlock!</code>
+这是因为对于unbuffered channel来说，send 和 receive 都是阻塞操作，除非 channel 的发送和接收端都准备好，否则，send 和 receive 任意一方都会都会导致 goroutine 挂起，出现死锁，解决方法如下：</p>
+
+<pre><code>func main() {
+	ch := make(chan int)
+	go func() { ch &lt;- 1 }() // 另起一个 goroutine
+	&lt;-ch
+}
+</code></pre>
+
+<h4 id="buffered-channel">buffered channel</h4>
+
+<p>大家肯定都知道 buffered channel 是非阻塞的 channel，但是大家有没有对 buffered channel 接收到消息的顺序产生疑问呢，顺序是随机的？还是顺序的？是怎样的顺序？</p>
+
+<pre><code>package main
+
+import (
+    &quot;fmt&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    ch := make(chan int, 3)
+    ch &lt;- 1
+    ch &lt;- 2
+    ch &lt;- 3
+
+    go func() {
+        ch &lt;- 4
+    }()
+
+    time.Sleep(time.Second)
+
+    for i := 0; i &lt; 4; i++ {
+        fmt.Println(&lt;-ch)
+    }
+}
+</code></pre>
+
+<p>上面的这段代码总是会顺序打印1，2，3，4，所以
+buffered channel =  first-in first-out (FIFO) queues</p>
+
+<h4 id="range">range</h4>
+
+<pre><code>func main() {
+	go func() {
+		time.Sleep(1 * time.Hour)
+	}()
+	c := make(chan int)
+	go func() {
+		for i := 0; i &lt; 10; i = i + 1 {
+			c &lt;- i
+		}
+		close(c)
+	}()
+	for i := range c {
+		fmt.Println(i)
+	}
+	fmt.Println(&quot;Finished&quot;)
+}
+</code></pre>
+
+<p>range c产生的迭代值为Channel中发送的值，它会一直迭代直到channel被关闭。上面的例子中如果把close()注释掉，程序会一直阻塞在for …… range那一行。</p>
+
+<h5 id="参考">参考</h5>
+
+<ol>
+<li><a href="https://medium.com/capital-one-developers/buffered-channels-in-go-what-are-they-good-for-43703871828">Buffered Channels In Go — What Are They Good For?</a></li>
+</ol>
+
+
+                <br>
+            </div>
+            
+            
+                <div class="navigation">
+                    
+                    <div>
+                        <img class="icon" src="http://fishu.cn/img/back.svg" alt="back" />
+                        <a href="http://fishu.cn/blog/%E8%AF%91go-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/">【译】Go 命名规范</a>
+                    </div>
+                    
+                    <div style="width: 100%;"></div>
+                    
+                    <div>
+                        <a href="http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/">Go Package Layout 参考</a>
+                        <img class="icon" src="http://fishu.cn/img/next.svg" alt="next" />
+                    </div>
+                    
+                </div>
+            
+            <br>
+            <div class="disqus">
+                <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "fishu" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+            </div>
+            
         </div>
     </div>
 </div>
+
 <div class="footer column">
     <div class="container">
 

@@ -26,5 +26,16 @@ Type 字段 区分消息类型：
  0x0 Data - 传输数据 0x1 Window Update - 更新发送者的接收窗口大小 0x2 Ping - 测试 RTT。也可以用来做心跳和 keep-alives 0x3 Go Away - 关闭 session  Flag 字段 配合 type 字段提供额外的信息：</description>
     </item>
     
+    <item>
+      <title>go channels 注意事项</title>
+      <link>http://fishu.cn/blog/go-channels-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</link>
+      <pubDate>Thu, 11 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/blog/go-channels-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</guid>
+      <description>在 Go 中，channel 分为unbuffered channel和buffered channel 两种，关于如何使用的问题，这里就不做讨论了。主要来记录下注意事项。
+unbuffered channel package main func main() { ch := make(chan int) ch &amp;lt;- 1 &amp;lt;-ch // 没有这行代码也会报同样的错误 }  运行这段代码会出现以下报错： fatal error: all goroutines are asleep - deadlock! 这是因为对于unbuffered channel来说，send 和 receive 都是阻塞操作，除非 channel 的发送和接收端都准备好，否则，send 和 receive 任意一方都会都会导致 goroutine 挂起，出现死锁，解决方法如下：
+func main() { ch := make(chan int) go func() { ch &amp;lt;- 1 }() // 另起一个 goroutine &amp;lt;-ch }  buffered channel 大家肯定都知道 buffered channel 是非阻塞的 channel，但是大家有没有对 buffered channel 接收到消息的顺序产生疑问呢，顺序是随机的？还是顺序的？是怎样的顺序？</description>
+    </item>
+    
   </channel>
 </rss>
