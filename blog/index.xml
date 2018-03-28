@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Fishu</copyright>
-    <lastBuildDate>Sat, 05 Aug 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 11 Sep 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>基于 Go 实现I/O多路复用(二)</title>
+      <link>http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%BA%8C/</link>
+      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%BA%8C/</guid>
+      <description>yamux 基于可靠连接，提供面向流的 I/O 复用，上次简单说了下 yamux 的协议，这次来分析源码。我们从一个小例子出发，逐步击穿核心。
+服务端代码 package main import ( &amp;quot;net&amp;quot; &amp;quot;github.com/hashicorp/yamux&amp;quot; ) func main() { server() } func server() { // 因为 yamux 面向底层可靠连接，所以我们需要先提供一个 tcp 连接 listener, err := net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;:8082&amp;quot;) if err != nil { panic(err) } // 等待 tcp client 连接 conn, err := listener.Accept() if err != nil { panic(err) } // 启动 yamux server 端 session, err := yamux.Server(conn, nil) if err != nil { panic(err) } // 等待 yamux client 连接 stream, err := session.</description>
+    </item>
     
     <item>
       <title>基于 Go 实现I/O多路复用(一)</title>

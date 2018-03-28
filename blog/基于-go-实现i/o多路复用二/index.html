@@ -15,9 +15,9 @@
 <meta property="og:site_name" content="鱼吠" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://fishu.cn/categories/golang/" />
-<meta property="og:title" content="Golang" />
-<meta property="twitter:title" content="Golang">
+<meta property="og:url" content="http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%BA%8C/" />
+<meta property="og:title" content="基于 Go 实现I/O多路复用(二)" />
+<meta property="twitter:title" content="基于 Go 实现I/O多路复用(二)">
 
     <meta property="og:image" content="http://fishu.cn/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -29,10 +29,10 @@
 <title>
 
 
-     鱼吠 - Golang 
+     鱼吠 - 基于 Go 实现I/O多路复用(二) 
 
 </title>
-<link rel="canonical" href="http://fishu.cn/categories/golang/">
+<link rel="canonical" href="http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%BA%8C/">
 
 
 <style media="screen">
@@ -1046,8 +1046,6 @@ div.main .content .markdown pre, div.main .content .markdown pre code {
 
 
 
-  <link href="http://fishu.cn/categories/golang/index.xml" rel="alternate" type="application/rss+xml" title="鱼吠" />
-
 
 </head>
 
@@ -1055,7 +1053,7 @@ div.main .content .markdown pre, div.main .content .markdown pre code {
 <body>
 
 
-<div class="header header-home column">
+<div class="header column">
 
     <div class="container">
         
@@ -1094,48 +1092,227 @@ div.main .content .markdown pre, div.main .content .markdown pre code {
     </div>
 </div>
 
-<div class="main column">
+
+<div class="main post non-narrow zero-top-spacing column">
     <div class="container">
         <div class="content">
-            <div class="posts">
-                <div class="page-heading">Posts about Golang</div>
-                <ul>
-                    
-                        <li class="post-item">
-    <span class="meta">Sep 11, 2017</span>
-    <a href="http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%BA%8C/"><span>基于 Go 实现I/O多路复用(二)</span></a>
-</li>
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
 
-                    
-                        <li class="post-item">
-    <span class="meta">Aug 5, 2017</span>
-    <a href="http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%80/"><span>基于 Go 实现I/O多路复用(一)</span></a>
-</li>
+    基于 Go 实现I/O多路复用(二)
 
-                    
-                        <li class="post-item">
-    <span class="meta">Jul 18, 2017</span>
-    <a href="http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/"><span>Go Package Layout 参考</span></a>
-</li>
+</div>
 
+                </div>
+                <div class="meta">
+                    <div class="date" title="Mon Sep 11 2017 00:00:00 UTC">Sep 11, 2017</div>
                     
-                        <li class="post-item">
-    <span class="meta">May 11, 2017</span>
-    <a href="http://fishu.cn/blog/go-channels-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"><span>go channels 注意事项</span></a>
-</li>
-
+                        
+                        <div class="author middot" title="fishu">fishu</div>
+                        
                     
-                        <li class="post-item">
-    <span class="meta">Apr 30, 2017</span>
-    <a href="http://fishu.cn/blog/%E8%AF%91go-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/"><span>【译】Go 命名规范</span></a>
-</li>
-
-                    
-                </ul>
+                    <div class="reading-time middot">2 minute read</div>
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="http://fishu.cn/tags/go">go</a> </li>
+                          
+                            <li class="middot"><a href="http://fishu.cn/tags/golang">golang</a> </li>
+                          
+                            <li class="middot"><a href="http://fishu.cn/tags/multiplexer">Multiplexer</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <div class="markdown">
+                
+    
+    
+
+<p><a href="https://github.com/hashicorp/yamux">yamux</a> 基于可靠连接，提供面向流的 I/O 复用，上次简单说了下 yamux 的协议，这次来分析源码。我们从一个小例子出发，逐步击穿核心。</p>
+
+<h5 id="服务端代码">服务端代码</h5>
+
+<pre><code>package main
+
+import (
+	&quot;net&quot;
+
+	&quot;github.com/hashicorp/yamux&quot;
+)
+
+func main() {
+	server()
+}
+
+func server() {
+   // 因为 yamux 面向底层可靠连接，所以我们需要先提供一个 tcp 连接
+	listener, err := net.Listen(&quot;tcp&quot;, &quot;:8082&quot;)
+	if err != nil {
+		panic(err)
+	}
+	// 等待 tcp client 连接
+	conn, err := listener.Accept()
+	if err != nil {
+		panic(err)
+	}
+
+	// 启动 yamux server 端
+	session, err := yamux.Server(conn, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	// 等待 yamux client 连接
+	stream, err := session.Accept()
+	if err != nil {
+		panic(err)
+	}
+
+	// 阻塞直到数据到达
+	buf := make([]byte, 4)
+	stream.Read(buf)
+}
+</code></pre>
+
+<h5 id="客户端代码">客户端代码</h5>
+
+<pre><code>package main
+
+import (
+	&quot;net&quot;
+
+	&quot;github.com/hashicorp/yamux&quot;
+)
+
+func main() {
+	client()
+}
+
+func client() {
+	// 连接到 tcp server 端
+	conn, err := net.Dial(&quot;tcp&quot;, &quot;127.0.0.1:8082&quot;)
+	if err != nil {
+		panic(err)
+	}
+
+	// 启动 yamux client 端
+	session, err := yamux.Client(conn, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	// 开启 stream
+	stream, err := session.Open()
+	if err != nil {
+		panic(err)
+	}
+
+	// 发送数据到 yamux server
+	stream.Write([]byte(&quot;hey&quot;))
+}
+</code></pre>
+
+<p>前面我们说过 yamux 里面有两个核心的概念：<strong>session</strong> 和 <strong>stream</strong>，一个 session 对应于一条 tcp 连接，一个 session 可以催生许多 stream 流，每个数据流 stream 都有 streamID来区分。在建立了 tcp 连接后，服务端和客户端都会执行下面一段代码。</p>
+
+<pre><code>// newSession is used to construct a new session
+func newSession(config *Config, conn io.ReadWriteCloser, client bool) *Session {
+   // 初始化 session
+	s := &amp;Session{
+		config:     config,
+		logger:     log.New(config.LogOutput, &quot;&quot;, log.LstdFlags),
+		conn:       conn,
+		bufRead:    bufio.NewReader(conn),
+		pings:      make(map[uint32]chan struct{}),
+		streams:    make(map[uint32]*Stream),
+		inflight:   make(map[uint32]struct{}),
+		synCh:      make(chan struct{}, config.AcceptBacklog),
+		acceptCh:   make(chan *Stream, config.AcceptBacklog),
+		sendCh:     make(chan sendReady, 64),
+		recvDoneCh: make(chan struct{}),
+		shutdownCh: make(chan struct{}),
+	}
+	if client {
+	   // 客户端使用奇数的 streamID
+		s.nextStreamID = 1
+	} else {
+	   // 服务端使用偶数
+		s.nextStreamID = 2
+	}
+	// 开启 recv loop，用来接收各个 stream 的数据
+	go s.recv()
+	// 开启 send loop，用来发送各个 stream 的数据
+	go s.send()
+	if config.EnableKeepAlive {
+		go s.keepalive()
+	}
+	return s
+}
+</code></pre>
+
+<p>上面代码在服务端执行 <code>yamux.Server(conn, nil)</code> 及客户端执行 <code>yamux.Client(conn, nil)</code> 后触发，都会生成两个 goroutine 。一个负责发送 stream 的数据，另一个负责接收 stream 的数据，并根据不同的 type 调用不同的处理逻辑，如下所示。</p>
+
+<p><img src="http://odn7j7kxz.bkt.clouddn.com/image/blog/yamux_loop.jpeg" alt="" />
+服务端在执行<code>session.Accept()</code>后，会等待客户端调用<code>session.Open()</code>来完成 stream 之间的连接。</p>
+
+<p><img src="http://odn7j7kxz.bkt.clouddn.com/image/blog/yamux_seq.jpeg" alt="时序图" /></p>
+
+<p>客户端 session 初始化一个 stream 设置接收窗口大小后通过 client_send_loop 发送类型为 windowUpdate 及 标识为 SYN 的消息到服务端，此时客户端 stream 的状态为 streamSYNSent， 服务端的 server_recv_loop 根据接收到的消息类型和标识来调用不同的处理函数，如果类型是 windowUpdate 标识为 SYN，那么服务端 session 就会初始化一个 stream，并且设置发送窗口大小，此时服务端 stream 的状态为 streamSYNReceived，然后服务端设置接收窗口大小并通过 server_send_loop 发送类型为 windowUpdate 标识为 ACK 的消息到客户端，此时服务端 stream 状态设为 streamEstablished， 客户端的 client_recv_loop 接收到消息，调整发送窗口大小后设置 stream 状态为streamEstablished，至此，服务端和客户端双方建立了连接，双方都初始化了 stream，如果想再建立连接，还需要走一遍上面的流程，初始化新的 stream，不同的 stream 通过 streamID 区分，这样就能复用连接，同时 recv_loop 根据消息的类型和标识通知stream做不同的逻辑。
+建立了连接通道后，双方就能通过 stream 发送数据了，当然 yamux 不止是能发送数据还能在连接之上做控制，比如说发送类型为 goAway 的消息能关闭 session，发送类型为 ping 的消息能测量 RTT。
+分析了核心的流程，如果大家对它感兴趣可以看一下源码。</p>
+
+
+                <br>
+            </div>
+            
+            
+                <div class="navigation">
+                    
+                    <div>
+                        <img class="icon" src="http://fishu.cn/img/back.svg" alt="back" />
+                        <a href="http://fishu.cn/blog/%E5%9F%BA%E4%BA%8E-go-%E5%AE%9E%E7%8E%B0i/o%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B8%80/">基于 Go 实现I/O多路复用(一)</a>
+                    </div>
+                    
+                    <div style="width: 100%;"></div>
+                    
+                </div>
+            
+            <br>
+            <div class="disqus">
+                <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "fishu" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+            </div>
+            
         </div>
     </div>
 </div>
+
 <div class="footer column">
     <div class="container">
 
