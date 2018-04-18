@@ -108,6 +108,17 @@ func RuneCount(buffer []byte) int { index, count := 0, 0 for index &amp;lt; len(
     </item>
     
     <item>
+      <title>go break 注意事项</title>
+      <link>http://fishu.cn/blog/go-break-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</link>
+      <pubDate>Sat, 04 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/blog/go-break-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</guid>
+      <description>break用来终止执行最内层的 for、 switch 或者 select语句。注意这里相对于 c 语言多出的 switch 和 select 语句。 c 语言中需要在 case 语句块中手动 break，不然自动传递到下一个 case clause的代码块，而 go 中 switch 不像 c 语言那样需要在 case 语句块中手动 break，go 中 case 语句块在执行完后会自动 break 出 switch，如果你需要直接跳到下一个case clause的代码块，那么你需要加入 fallthrough 语句。
+break label break label 和 goto label 有着很大的不同。 如果break后面跟着一个 label，则 label 应该紧贴着要终止的for、switch或者selector语句。 下面的代码中 break label2就是错的。
+label2: i := 10 label1: for { i++ if i &amp;gt; 20 { break label1 } fmt.Println(i) if i &amp;lt; 10 { break label2 } }  出错信息：invalid break label label2。</description>
+    </item>
+    
+    <item>
       <title>Home</title>
       <link>http://fishu.cn/home/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

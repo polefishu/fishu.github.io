@@ -43,6 +43,11 @@
   </url>
   
   <url>
+    <loc>http://fishu.cn/blog/go-break-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</loc>
+    <lastmod>2017-03-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://fishu.cn/blog/</loc>
     <lastmod>2017-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -106,6 +111,12 @@
   <url>
     <loc>http://fishu.cn/tags/projects/</loc>
     <lastmod>2018-03-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/syntactic/</loc>
+    <lastmod>2017-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
