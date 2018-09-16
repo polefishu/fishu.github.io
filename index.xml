@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>Copyright © 2017 Fishu</copyright>
-    <lastBuildDate>Fri, 09 Mar 2018 20:29:37 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 16 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>date 命令一览</title>
+      <link>http://fishu.cn/blog/date-%E5%91%BD%E4%BB%A4%E4%B8%80%E8%A7%88/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/blog/date-%E5%91%BD%E4%BB%A4%E4%B8%80%E8%A7%88/</guid>
+      <description>这里列举了一些 date 命令的常用方式，更多的请 man date
+On Linux 输出当前时间的 UNIX 时间戳 date +%s
+转换指定日期为 UNIX 时间戳 date -d &#39;2018-09-16 22:14&#39; +%s
+将 UNIX 时间戳转换为日期 date -d @1536820912.669
+将 UNIX 时间戳转换为指定格式日期 date -d @1536820912.669 +&amp;quot;%Y-%m-%d %H:%M:%S&amp;quot;
+date -d @1537070615 --rfc-3339=date
+date -d @1537070615 --rfc-3339=ns
+date --rfc-3339=seconds | sed &#39;s/ /T/&#39;
+加减操作 显示前一天的日期 date -d &amp;quot;+1 day&amp;quot; +%Y%m%d
+显示后一天的日期 date -d &amp;quot;-1 day&amp;quot; +%Y%m%d
+On mac date -r 1537070615
+date -r 1537070615 +%Y-%m-%d</description>
+    </item>
     
     <item>
       <title>Projects</title>
@@ -116,6 +136,24 @@ func RuneCount(buffer []byte) int { index, count := 0, 0 for index &amp;lt; len(
       <description>break用来终止执行最内层的 for、 switch 或者 select语句。注意这里相对于 c 语言多出的 switch 和 select 语句。 c 语言中需要在 case 语句块中手动 break，不然自动传递到下一个 case clause的代码块，而 go 中 switch 不像 c 语言那样需要在 case 语句块中手动 break，go 中 case 语句块在执行完后会自动 break 出 switch，如果你需要直接跳到下一个case clause的代码块，那么你需要加入 fallthrough 语句。
 break label break label 和 goto label 有着很大的不同。 如果break后面跟着一个 label，则 label 应该紧贴着要终止的for、switch或者selector语句。 下面的代码中 break label2就是错的。
 label2: i := 10 label1: for { i++ if i &amp;gt; 20 { break label1 } fmt.Println(i) if i &amp;lt; 10 { break label2 } }  出错信息：invalid break label label2。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://fishu.cn/2018-09-16-1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/2018-09-16-1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://fishu.cn/2018-09-16/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/2018-09-16/</guid>
+      <description></description>
     </item>
     
     <item>

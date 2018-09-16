@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://fishu.cn/blog/date-%E5%91%BD%E4%BB%A4%E4%B8%80%E8%A7%88/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://fishu.cn/projects/projects/</loc>
     <lastmod>2018-03-09T20:29:37-07:00</lastmod>
   </url>
@@ -48,8 +53,16 @@
   </url>
   
   <url>
+    <loc>http://fishu.cn/2018-09-16-1/</loc>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/2018-09-16/</loc>
+  </url>
+  
+  <url>
     <loc>http://fishu.cn/blog/</loc>
-    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -61,6 +74,12 @@
   <url>
     <loc>http://fishu.cn/tags/channels/</loc>
     <lastmod>2017-05-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/command/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -88,6 +107,18 @@
   
   <url>
     <loc>http://fishu.cn/license/</loc>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/linux/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/categories/linux/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -128,7 +159,7 @@
   
   <url>
     <loc>http://fishu.cn/</loc>
-    <lastmod>2018-03-09T20:29:37-07:00</lastmod>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
