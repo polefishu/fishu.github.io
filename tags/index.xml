@@ -6,47 +6,10 @@
     <description>Recent content in Tags on 鱼吠</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2017 Fishu</copyright>
-    <lastBuildDate>Thu, 11 May 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Channels</title>
-      <link>http://fishu.cn/tags/channels/</link>
-      <pubDate>Thu, 11 May 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://fishu.cn/tags/channels/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Command</title>
-      <link>http://fishu.cn/tags/command/</link>
-      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://fishu.cn/tags/command/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Go</title>
-      <link>http://fishu.cn/tags/go/</link>
-      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://fishu.cn/tags/go/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Golang</title>
-      <link>http://fishu.cn/tags/golang/</link>
-      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://fishu.cn/tags/golang/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Linux</title>
@@ -54,6 +17,15 @@
       <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>http://fishu.cn/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>command</title>
+      <link>http://fishu.cn/tags/command/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/tags/command/</guid>
       <description></description>
     </item>
     
@@ -67,16 +39,34 @@
     </item>
     
     <item>
-      <title>Projects</title>
-      <link>http://fishu.cn/tags/projects/</link>
-      <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
+      <title>go</title>
+      <link>http://fishu.cn/tags/go/</link>
+      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://fishu.cn/tags/projects/</guid>
+      <guid>http://fishu.cn/tags/go/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Syntactic</title>
+      <title>golang</title>
+      <link>http://fishu.cn/tags/golang/</link>
+      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>channels</title>
+      <link>http://fishu.cn/tags/channels/</link>
+      <pubDate>Thu, 11 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/tags/channels/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>syntactic</title>
       <link>http://fishu.cn/tags/syntactic/</link>
       <pubDate>Sat, 04 Mar 2017 00:00:00 +0000</pubDate>
       

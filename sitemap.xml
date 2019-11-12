@@ -3,8 +3,56 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://fishu.cn/blog/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/categories/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/categories/linux/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/linux/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/command/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://fishu.cn/blog/date-%E5%91%BD%E4%BB%A4%E4%B8%80%E8%A7%88/</loc>
     <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/</loc>
+    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/projects/</loc>
+    <lastmod>2018-03-09T20:29:37-07:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -13,8 +61,33 @@
   </url>
   
   <url>
-    <loc>http://fishu.cn/projects/sdf/</loc>
-    <lastmod>2018-03-09T00:00:00+00:00</lastmod>
+    <loc>http://fishu.cn/tags/multiplexer/</loc>
+    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/go/</loc>
+    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/categories/golang/</loc>
+    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/golang/</loc>
+    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/categories/net/</loc>
+    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -30,6 +103,12 @@
   <url>
     <loc>http://fishu.cn/blog/go-package-layout-%E5%8F%82%E8%80%83/</loc>
     <lastmod>2017-07-18T20:26:38+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/channels/</loc>
+    <lastmod>2017-05-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -53,43 +132,8 @@
   </url>
   
   <url>
-    <loc>http://fishu.cn/blog/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/channels/</loc>
-    <lastmod>2017-05-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/command/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/go/</loc>
-    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/golang/</loc>
-    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/categories/golang/</loc>
-    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
+    <loc>http://fishu.cn/tags/syntactic/</loc>
+    <lastmod>2017-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -99,60 +143,6 @@
   
   <url>
     <loc>http://fishu.cn/license/</loc>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/linux/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/categories/linux/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/multiplexer/</loc>
-    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/categories/net/</loc>
-    <lastmod>2017-09-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/projects/</loc>
-    <lastmod>2018-03-09T20:29:37-07:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/projects/</loc>
-    <lastmod>2018-03-09T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/syntactic/</loc>
-    <lastmod>2017-03-04T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/tags/</loc>
-    <lastmod>2017-05-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>

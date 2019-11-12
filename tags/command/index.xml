@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Command on 鱼吠</title>
+    <title>command on 鱼吠</title>
     <link>http://fishu.cn/tags/command/</link>
-    <description>Recent content in Command on 鱼吠</description>
+    <description>Recent content in command on 鱼吠</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2017 Fishu</copyright>
     <lastBuildDate>Sun, 16 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/tags/command/index.xml" rel="self" type="application/rss+xml" />

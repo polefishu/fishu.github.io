@@ -6,19 +6,10 @@
     <description>Recent content in Categories on 鱼吠</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <copyright>Copyright © 2017 Fishu</copyright>
+    <lastBuildDate>Sun, 16 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Golang</title>
-      <link>http://fishu.cn/categories/golang/</link>
-      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://fishu.cn/categories/golang/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Linux</title>
@@ -30,7 +21,16 @@
     </item>
     
     <item>
-      <title>Net</title>
+      <title>golang</title>
+      <link>http://fishu.cn/categories/golang/</link>
+      <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://fishu.cn/categories/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>net</title>
       <link>http://fishu.cn/categories/net/</link>
       <pubDate>Mon, 11 Sep 2017 00:00:00 +0000</pubDate>
       
