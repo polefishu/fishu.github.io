@@ -4,13 +4,42 @@
   
   <url>
     <loc>http://fishu.cn/blog/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-12T14:52:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://fishu.cn/categories/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-12T14:52:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/blog/kubectl-%E6%95%88%E7%8E%87%E6%8C%87%E5%8D%97/</loc>
+    <lastmod>2020-04-12T14:52:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/</loc>
+    <lastmod>2020-04-12T14:52:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/tags/kubernetes/</loc>
+    <lastmod>2020-04-12T14:52:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/categories/tools/</loc>
+    <lastmod>2020-04-12T14:52:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://fishu.cn/</loc>
+    <lastmod>2020-04-12T14:52:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -27,12 +56,6 @@
   </url>
   
   <url>
-    <loc>http://fishu.cn/tags/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://fishu.cn/tags/command/</loc>
     <lastmod>2018-09-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -41,12 +64,6 @@
   <url>
     <loc>http://fishu.cn/blog/date-%E5%91%BD%E4%BB%A4%E4%B8%80%E8%A7%88/</loc>
     <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://fishu.cn/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
