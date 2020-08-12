@@ -6,10 +6,24 @@
     <description>Recent content on 鱼吠</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 12 Apr 2020 14:52:49 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 10 May 2020 11:30:00 +0800</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>client-go 中的 client</title>
+      <link>http://fishu.cn/blog/client-go-%E4%B8%AD%E7%9A%84-client/</link>
+      <pubDate>Sun, 10 May 2020 11:30:00 +0800</pubDate>
+      
+      <guid>http://fishu.cn/blog/client-go-%E4%B8%AD%E7%9A%84-client/</guid>
+      <description>希望阅读完本文后能回答下面三个问题：
+ Kubernetes API 组织形式 GVK GVR 说的啥 Client-go 中各种 client 的作用  Kubernetes API 是集群系统中的重要组成部分，Kubernetes 中各种资源（对象）的数据通过该API接口被提交到后端的持久化存储（etcd）中，Kubernetes 集群中的各部件之间通过该 API 接口实现解耦合。
+在Kubernetes系统中，大多数情况下，API 定义和实现都符合标准的 RestFul 风格， 比如通过标准的 HTTP 动词（POST、PUT、GET、DELETE）来完成对相关资源对象的查询、创建、修改、删除等操作。但同时 Kubernetes 也为某些非标准的 REST 行为实现了附加的 API 接口，例如 Watch 某个资源的变化、进入容器执行某个操作等。另外，某些 API 接口可能违背严格的 RestFul 模式，因为接口不是返回单一的 JSON 对象，而是返回其他类型的数据，比如 JSON 对象流（Stream）或非结构化的文本日志数据等。
+任何成功的系统都会经历一个不断成长和不断适应各种变更的过程。因此 Kubernetes API 是不断变更和增长的。
+用好和用对 Kubernetes API 是我们扩展 Kubernetes 能力的第一步，client-go 封装了使用 Kubernetes API 的 client，包括：
+ Rest client Typed clients Dynamic client  我们只要使用好 client-go 就能方便的通过 Kubernetes API 和 Kubernetes 交互。</description>
+    </item>
     
     <item>
       <title>Kubectl 效率指南</title>

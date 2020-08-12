@@ -6,19 +6,18 @@
     <description>Recent content in tags on 鱼吠</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 03 Dec 2018 16:11:39 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 12 Aug 2020 23:39:15 +0800</lastBuildDate>
     
 	<atom:link href="http://fishu.cn/tags/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Iptables_debug</title>
-      <link>http://fishu.cn/blog/iptables_debug/</link>
-      <pubDate>Mon, 03 Dec 2018 16:11:39 +0800</pubDate>
+      <title>Client Go</title>
+      <link>http://fishu.cn/blog/client-go/</link>
+      <pubDate>Wed, 12 Aug 2020 23:39:15 +0800</pubDate>
       
-      <guid>http://fishu.cn/blog/iptables_debug/</guid>
-      <description>modprobe nf_log_ipv4 modprobe nf_log_ipv6
-for IPv4 iptables -t raw -A OUTPUT -p icmp -j TRACE iptables -t raw -A PREROUTING -p icmp -j TRACE for IPv6 ip6tables -t raw -A OUTPUT -p icmpv6 &amp;ndash;icmpv6-type echo-request -j TRACE ip6tables -t raw -A OUTPUT -p icmpv6 &amp;ndash;icmpv6-type echo-reply -j TRACE ip6tables -t raw -A PREROUTING -p icmpv6 &amp;ndash;icmpv6-type echo-request -j TRACE ip6tables -t raw -A PREROUTING -p icmpv6 &amp;ndash;icmpv6-type echo-reply -j TRACE /var/log/messages or dmesg</description>
+      <guid>http://fishu.cn/blog/client-go/</guid>
+      <description></description>
     </item>
     
   </channel>

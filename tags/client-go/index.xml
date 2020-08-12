@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubernetes on 鱼吠</title>
-    <link>http://fishu.cn/tags/kubernetes/</link>
-    <description>Recent content in kubernetes on 鱼吠</description>
+    <title>client-go on 鱼吠</title>
+    <link>http://fishu.cn/tags/client-go/</link>
+    <description>Recent content in client-go on 鱼吠</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Sun, 10 May 2020 11:30:00 +0800</lastBuildDate>
     
-	<atom:link href="http://fishu.cn/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://fishu.cn/tags/client-go/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -23,19 +23,6 @@
 任何成功的系统都会经历一个不断成长和不断适应各种变更的过程。因此 Kubernetes API 是不断变更和增长的。
 用好和用对 Kubernetes API 是我们扩展 Kubernetes 能力的第一步，client-go 封装了使用 Kubernetes API 的 client，包括：
  Rest client Typed clients Dynamic client  我们只要使用好 client-go 就能方便的通过 Kubernetes API 和 Kubernetes 交互。</description>
-    </item>
-    
-    <item>
-      <title>Kubectl 效率指南</title>
-      <link>http://fishu.cn/blog/kubectl-%E6%95%88%E7%8E%87%E6%8C%87%E5%8D%97/</link>
-      <pubDate>Sun, 12 Apr 2020 14:52:49 +0800</pubDate>
-      
-      <guid>http://fishu.cn/blog/kubectl-%E6%95%88%E7%8E%87%E6%8C%87%E5%8D%97/</guid>
-      <description>kubectl 插件机制 kubectl插件其实就是以kubectl-为前缀的任意可执行文件，比如执行: ln -s /bin/echo /usr/local/bin/kubectl-echo
-此时就相当于安装了个 echo 的 kubectl 插件，kubectl 插件可以通过 kubectl + 插件名执行，kubectl xxx 其实就是相当于运行 kubectl-xxx。
-比如要运行我们的echo插件，只需执行如下命令: kubectl echo &amp;quot;HelloWorld!&amp;quot;
-如何安装 kubectl 插件 第一种就是直接到 github 或者插件的官方网站下载，第一种是通过 kubectl 插件管理工具 krew 来下载插件，推荐使用 krew，很方便：
-( set -x; cd &amp;quot;$(mktemp -d)&amp;quot; &amp;amp;&amp;amp; curl -fsSLO &amp;quot;https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.{tar.gz,yaml}&amp;quot; &amp;amp;&amp;amp; tar zxvf krew.tar.gz &amp;amp;&amp;amp; KREW=./krew-&amp;quot;$(uname | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)_amd64&amp;quot; &amp;amp;&amp;amp; &amp;quot;$KREW&amp;quot; install --manifest=krew.yaml --archive=krew.tar.gz &amp;amp;&amp;amp; &amp;quot;$KREW&amp;quot; update ) export PATH=&amp;quot;${KREW_ROOT:-$HOME/.krew}/bin:$PATH&amp;quot;  安装完成后 kubectl krew, kubectl krew search 验证。</description>
     </item>
     
   </channel>

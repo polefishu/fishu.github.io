@@ -15,9 +15,9 @@
 <meta property="og:site_name" content="鱼吠" />
 <meta property="og:locale" content="nn_NO" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://fishu.cn/blog/kubectl-%E6%95%88%E7%8E%87%E6%8C%87%E5%8D%97/" />
-<meta property="og:title" content="Kubectl 效率指南" />
-<meta property="twitter:title" content="Kubectl 效率指南">
+<meta property="og:url" content="http://fishu.cn/blog/client-go-%E4%B8%AD%E7%9A%84-client/" />
+<meta property="og:title" content="client-go 中的 client" />
+<meta property="twitter:title" content="client-go 中的 client">
 
     <meta property="og:image" content="http://fishu.cn/img/banner.png">
     <meta property="twitter:card" content="summary_large_image">
@@ -29,10 +29,10 @@
 <title>
 
 
-     鱼吠 - Kubectl 效率指南 
+     鱼吠 - client-go 中的 client 
 
 </title>
-<link rel="canonical" href="http://fishu.cn/blog/kubectl-%E6%95%88%E7%8E%87%E6%8C%87%E5%8D%97/">
+<link rel="canonical" href="http://fishu.cn/blog/client-go-%E4%B8%AD%E7%9A%84-client/">
 
 
 <style media="screen">
@@ -1100,23 +1100,25 @@ div.main .content .markdown pre, div.main .content .markdown pre code {
                 <div class="title-container">
                     <div class="page-heading">
 
-    Kubectl 效率指南
+    client-go 中的 client
 
 </div>
 
                 </div>
                 <div class="meta">
-                    <div class="date" title="Sun Apr 12 2020 14:52:49 CST">Apr 12, 2020</div>
+                    <div class="date" title="Sun May 10 2020 11:30:00 CST">May 10, 2020</div>
                     
                         
                         <div class="author middot" title="fishu">fishu</div>
                         
                     
-                    <div class="reading-time middot">9 minute read</div>
+                    <div class="reading-time middot">4 minute read</div>
                     <div class="tags">
                         <ul>
                           
                             <li class="middot"><a href="http://fishu.cn/tags/kubernetes">kubernetes</a> </li>
+                          
+                            <li class="middot"><a href="http://fishu.cn/tags/client-go">client-go</a> </li>
                           
                         </ul>
                     </div>
@@ -1137,889 +1139,306 @@ div.main .content .markdown pre, div.main .content .markdown pre code {
     
     
 
-<h3 id="kubectl-插件机制">kubectl 插件机制</h3>
+<p>希望阅读完本文后能回答下面三个问题：</p>
 
-<p>kubectl插件其实就是以kubectl-为前缀的任意可执行文件，比如执行:
-<code>ln -s /bin/echo /usr/local/bin/kubectl-echo</code></p>
+<ol>
+<li>Kubernetes API 组织形式</li>
+<li>GVK GVR 说的啥</li>
+<li>Client-go 中各种 client 的作用</li>
+</ol>
 
-<p>此时就相当于安装了个 echo 的 kubectl 插件，kubectl 插件可以通过 kubectl + 插件名执行，kubectl xxx 其实就是相当于运行 kubectl-xxx。</p>
+<p>Kubernetes API 是集群系统中的重要组成部分，Kubernetes 中各种资源（对象）的数据通过该API接口被提交到后端的持久化存储（etcd）中，Kubernetes 集群中的各部件之间通过该 API 接口实现解耦合。</p>
 
-<p>比如要运行我们的echo插件，只需执行如下命令:
-<code>kubectl echo &quot;HelloWorld!&quot;</code></p>
+<p>在Kubernetes系统中，大多数情况下，API 定义和实现都符合标准的 RestFul 风格， 比如通过标准的 HTTP 动词（POST、PUT、GET、DELETE）来完成对相关资源对象的查询、创建、修改、删除等操作。但同时 Kubernetes 也为某些非标准的 REST 行为实现了附加的 API 接口，例如 Watch 某个资源的变化、进入容器执行某个操作等。另外，某些 API 接口可能违背严格的 RestFul 模式，因为接口不是返回单一的 JSON 对象，而是返回其他类型的数据，比如 JSON 对象流（Stream）或非结构化的文本日志数据等。</p>
 
-<h4 id="如何安装-kubectl-插件">如何安装 kubectl 插件</h4>
+<p>任何成功的系统都会经历一个不断成长和不断适应各种变更的过程。因此 Kubernetes API 是不断变更和增长的。</p>
 
-<p>第一种就是直接到 github 或者插件的官方网站下载，第一种是通过 kubectl 插件管理工具 krew 来下载插件，推荐使用 <a href="https://krew.sigs.k8s.io/">krew</a>，很方便：</p>
+<p>用好和用对 Kubernetes API 是我们扩展 Kubernetes 能力的第一步，<a href="https://github.com/kubernetes/client-go/">client-go</a> 封装了使用 Kubernetes API 的 client，包括：</p>
 
-<pre><code>(
-  set -x; cd &quot;$(mktemp -d)&quot; &amp;&amp;
-  curl -fsSLO &quot;https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.{tar.gz,yaml}&quot; &amp;&amp;
-  tar zxvf krew.tar.gz &amp;&amp;
-  KREW=./krew-&quot;$(uname | tr '[:upper:]' '[:lower:]')_amd64&quot; &amp;&amp;
-  &quot;$KREW&quot; install --manifest=krew.yaml --archive=krew.tar.gz &amp;&amp;
-  &quot;$KREW&quot; update
-)
+<ul>
+<li>Rest client</li>
+<li>Typed clients</li>
+<li>Dynamic client</li>
+</ul>
 
-export PATH=&quot;${KREW_ROOT:-$HOME/.krew}/bin:$PATH&quot;
+<p>我们只要使用好 client-go 就能方便的通过 Kubernetes API 和 Kubernetes 交互。</p>
+
+<h2 id="引子-kubernetes-api">引子 &ndash; Kubernetes API</h2>
+
+<h3 id="kubernetes-api-version">Kubernetes API Version</h3>
+
+<p>为了在兼容旧版本的同时不断升级新的 API，Kubernetes 提供了多版本 API 的支持能力，每个版本的 API 通过一个版本号路径前缀进行区分，例如 /api/v1beta3。通常情况下，新旧几个不同的API 版本都能涵盖所有的 Kubernetes 资源对象，在不同的版本之间这些 API 接口存在一些细微差别。Kubernetes 开发团队基于 API 级别选择版本而不是基于资源和 namespace 级别，是为了确保 API 能够描述一个清晰的连续的系统资源和行为的视图，能够控制访问的整个过程和控制实验性 API 的访问。</p>
+
+<h3 id="kubernetes-api-groups">Kubernetes API Groups</h3>
+
+<p>为了更容易对 API 进行扩展，Kubernetes 使用 <code>API Groups (API组)</code> 进行标识。APIGroups 以及 REST URL 中的路径进行定义。当前支持两类 API groups。</p>
+
+<ul>
+<li><p>Core Groups (核心组)，也可以称为Legacy Groups，该组的REST路径位于/api/v1, 作为 Kubernetes 最核心的 API，它是没有“组”的概念，例如 ”vl“，在资源对象的定义中表示为”apiVersion: v1“。</p></li>
+
+<li><p>具有分组信息的 API，以 <code>/apis/GROUP/VERSION</code> 路径进行标识，在资源对象的定义中表示为 apiVersion: GROUP/VERSION（例如，apiVersion: batch/v1）。已支持的 API 组详细列表请参阅 <a href="https://kubernetes.io/docs/reference">Kubernetes API reference</a>。</p></li>
+</ul>
+
+<p>Cluster-scoped resources:</p>
+
+<ul>
+<li>GET /apis/GROUP/VERSION/RESOURCETYPE - return the collection of resources of the resource type</li>
+<li>GET /apis/GROUP/VERSION/RESOURCETYPE/NAME - return the resource with NAME under the resource type</li>
+</ul>
+
+<p>Namespace-scoped resources:</p>
+
+<ul>
+<li>GET /apis/GROUP/VERSION/RESOURCETYPE - return the collection of all instances of the resource type across all namespaces</li>
+<li>GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE - return collection of all instances of the resource type in NAMESPACE</li>
+<li>GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE/NAME - return the instance of the resource type with NAME in NAMESPACE</li>
+</ul>
+
+<p>sub-resources</p>
+
+<ul>
+<li>Cluster-scoped subresource: GET /apis/GROUP/VERSION/RESOURCETYPE/NAME/SUBRESOURCE</li>
+<li>Namespace-scoped subresource: GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE/NAME/SUBRESOURCE</li>
+</ul>
+
+<h3 id="mapping-between-gvk-and-gvr">Mapping between GVK and GVR</h3>
+
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-app
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
 </code></pre>
 
-<p>安装完成后 <code>kubectl krew</code>, <code>kubectl krew search</code>  验证。</p>
+<ul>
+<li>resource: deployments</li>
+<li>group: apps</li>
+<li>version: v1</li>
+<li>kind: Deployment</li>
+</ul>
 
-<h3 id="快速切换-context">快速切换 context</h3>
+<p>GVK = group version kind
+GVR = group version resource</p>
 
-<p>使用 <code>kubectl --context=xxx -n=xxx</code> 切换 context 很累，特别是对于多个 Kubernetes 集群的管理者而言，之前为了避免多敲命令，对每个集群 alias 了单独的 kubectl，比如对于 a2 集群的 <code>shu</code> Namespace 单独设置别名：<code>alias ka2shu=&quot;kubectl --kubeconfig=/data/shu/.kube/config-a2-shu&quot;</code>，集群多了这种效率就很低下。</p>
+<p>GVR 用来填充 REST API 请求，比如获取 deployments
+&gt; GET /apis/apps/v1/namespaces/{namespace}/deployments/{name}</p>
 
-<p>kubectx 用于快速切换 Kubernetes context kubens 用于快速切换 namespace，结合模糊搜索神器 fzf，效率提高了不止一点半点。</p>
+<p>RESTMapper其实包含的是一种转换关系，resource到kind，kind到resource，kind到scope的转换。resource还分单数和复数。</p>
 
-<h4 id="安装模糊搜索工具-fzf">安装模糊搜索工具 fzf</h4>
+<p>kind和resource有什么区别呢？
+二者都是字符串，kind是通过Kind=reflector.TypeOf(&amp;Pod{}).Elem().Name()进行取值，取得的就是Pod这个结构体的名字。
+resource是通过plural, singular := KindToResource(kind)取值。
+singular是将Kind转换为小写字母，而plural是变为复数。</p>
 
-<p><a href="https://github.com/junegunn/fzf">fzf</a></p>
+<p>示例：
+以Pod为例，Kind是{Group:&ldquo;&rdquo;, Version: &ldquo;v1&rdquo;, Kind: &ldquo;Pod&rdquo;},
+那么singular是{Group:&ldquo;&rdquo;, Version: &ldquo;v1&rdquo;, Kind: &ldquo;pod&rdquo;},
+plural则是{Group：&rdquo;&ldquo;, Version：&rdquo;v1&rdquo;, Resource:&ldquo;pods&rdquo;}。</p>
 
-<pre><code>➜ brew install fzf
+<p>我们可以从一个 JSON 或者 YAML 资源中获取 GVK，通过 REST mapping 获取 GVR，然后就能填充 REST API 请求了。</p>
 
-# To install useful key bindings and fuzzy completion:
-➜ $(brew --prefix)/opt/fzf/install
+<pre><code>➜  ~ kubectl api-resources --api-group=apps
+NAME                  SHORTNAMES   APIGROUP   NAMESPACED   KIND
+controllerrevisions                apps       true         ControllerRevision
+daemonsets            ds           apps       true         DaemonSet
+deployments           deploy       apps       true         Deployment
+replicasets           rs           apps       true         ReplicaSet
+statefulsets          sts          apps       true         StatefulSet
 </code></pre>
 
-<h4 id="安装-kubectx-和-kubens-插件">安装 kubectx 和 kubens 插件</h4>
+<h2 id="client">client</h2>
 
-<pre><code>➜ kubectl krew install ctx
-➜ kubectl krew install ns
-</code></pre>
+<p>有了前面的基础知识我们来看看 client-go 如何封装 client。</p>
 
-<p>安装完成的插件默认放在 <code>$HOME/.krew/bin</code> 下</p>
+<h3 id="k8s-io-client-go-rest-rest-client">k8s.io/client-go/rest Rest client</h3>
 
-<pre><code>➜ ls .krew/bin
-kubectl-ctx  kubectl-krew kubectl-ns
-</code></pre>
+<p>Rest client 是基础库，Typed clients 和 Dynamic client 最后都是调用的 Rest client。</p>
 
-<h4 id="准备-kubectl-config-文件">准备 kubectl config 文件</h4>
+<p>rest 定义的接口</p>
 
-<p>如果你有多个集群，每个集群的配置文件可以追加到 KUBECONFIG 环境变量中，比如你有 config-a1，config-a2 两个集群的配置文件，那么你的 KUBECONFIG 可以这样 <code>export KUBECONFIG=$KUBECONFIG:$HOME/.kube/config-a1:$HOME/.kube/config-a1</code>，当你输入 <code>kubectl config view</code> 的时候你可以看到这两个配置文件合并后的效果，当然如果你已经把多个集群合并到一个配置文件了，那么你就不需要设置 KUBECONFIG 了，详细参考<a href="https://kubernetes.io/zh/docs/tasks/access-application-cluster/configure-access-multiple-clusters/">这里</a>.</p>
-
-<p>准备工作完成，来实操一下，看看有没有方便点。</p>
-
-<pre><code>➜ kubectl ctx
-➜ kubectl ns
-</code></pre>
-
-<h4 id="定制-terminal">定制 terminal</h4>
-
-<p><a href="https://github.com/jonmosco/kube-ps1">kube-ps1</a></p>
-
-<pre><code>➜ brew install kube-ps1
-
-# Make sure kube-ps1 is loaded from your ~/.zshrc and/or ~/.bashrc:
-  source &quot;/usr/local/opt/kube-ps1/share/kube-ps1.sh&quot;
-  PS1='$(kube_ps1)'$PS1
-</code></pre>
-
-<h3 id="定制输出">定制输出</h3>
-
-<h4 id="custom-columns">custom-columns</h4>
-
-<pre><code>kubectl get deploy -o=custom-columns=NAME:'.metadata.name',IMAGES:'.spec.template.spec.containers[*].image'
-</code></pre>
-
-<p>使用文件保存格式</p>
-
-<pre><code>➜ cat&gt;&gt;kubectl-dls&lt;&lt;EOF
-#!/bin/bash
-
-if [ ! -z &quot;$1&quot; ] &amp;&amp; [ -f $HOME/.kube/columns/$1 ];
-then
-    kubectl get -o=custom-columns-file=$HOME/.kube/columns/$1 $@
-else
-    kubectl get $@
-fi
-EOF
-
-➜ kubectl-ls /usr/local/bin/kubectl-dls
-
-➜ mkdir -p ~/.kube/columns
-cat&gt;&gt;~/.kube/columns/deploy&lt;&lt;EOF
-NAME           IMAGE
-.metadata.name .spec.template.spec.containers[*].image
-EOF
-
-➜ kc dls deploy
-</code></pre>
-
-<h4 id="golang-templates">Golang Templates</h4>
-
-<pre><code>➜ kubectl get no -o go-template='{{range .items}}{{if .spec.unschedulable}}{{.metadata.name}} {{.spec.externalID}}{{&quot;\n&quot;}}{{end}}{{end}}'
-
-➜ kubectl get pods -o go-template --template='{{range .items}}{{printf &quot;%s\n&quot; .metadata.uid}}{{end}}'
-</code></pre>
-
-<h4 id="jsonpath">JSONPath</h4>
-
-<pre><code>kubectl get no -o jsonpath=&quot;{range.items[?(@.spec.unschedulable)]}{.metadata.name}:{end}&quot; | tr &quot;:&quot; &quot;\n&quot;
-
-kc get pod -l managed-by=redis-cluster-operator -o jsonpath=&quot;{range.items[*]}{.metadata.name}:{end}&quot; | tr &quot;:&quot; &quot;\n&quot;
-</code></pre>
-
-<h4 id="jq-jid">jq &amp; jid</h4>
-
-<pre><code>kubectl get no -o json | jid -q | pbcopy
-
-kubectl get po -o json | jq -r '.items | sort_by(.spec.nodeName)[] | [.spec.nodeName,.metadata.name] | @tsv'
-</code></pre>
-
-<h3 id="小技巧">小技巧</h3>
-
-<p>只输出 name</p>
-
-<pre><code>➜ kubectl get pod -o name
-</code></pre>
-
-<p>sort</p>
-
-<pre><code>➜ kubectl get po -o wide --sort-by=.spec.nodeName
-➜ kubectl get pv --sort-by=.spec.capacity.storage
-➜ kubectl get events --sort-by=.metadata.creationTimestamp
-</code></pre>
-
-<p>pod 引用的 secret</p>
-
-<pre><code>➜ kubectl get pods -o json | jq '.items[].spec.containers[].env[]?.valueFrom.secretKeyRef.name' | grep -v null | sort | uniq
-</code></pre>
-
-<p>资源文档</p>
-
-<pre><code>kubectl api-resources
-kc explain pod.spec
-kc explain pod.spec --recursive
-</code></pre>
-
-<p>在每个 pod 中运行脚本</p>
-
-<pre><code>export label=managed-by=redis-cluster-operator
-for p in `kubectl get po -l $label -o name`;do echo $p; kubectl exec ${p:4} -- sh -c 'ls -lh /data | grep rdb'; done
-</code></pre>
-
-<p>在每个 node 运行脚本</p>
-
-<pre><code>while read ip; do echo $ip; ssh root@$ip &quot;docker ps | grep redis-cluster-operator&quot; &lt; /dev/null; done &lt; &lt;(kdev get no -o json | jq -r '.items[].status.addresses[] | select(.type==&quot;Hostname&quot;) | .address')
-
-while read ip; do echo $ip; ssh root@$ip uptime &lt;/dev/null; done &lt; &lt;(kdev get no -o jsonpath='{range.items[*].status.addresses[?(@.type==&quot;Hostname&quot;)]}{.address}{&quot;\n&quot;}{end}')
-</code></pre>
-
-<p>获取指定 node 上的 pod</p>
-
-<pre><code>kubectl get po -o json | jq -r '.items | sort_by(.spec.nodeName)[]|select(.spec.nodeName==&quot;10.25.152.90&quot;)|[.metadata.name,.spec.nodeName]| @tsv'
-</code></pre>
-
-<p>获取 node 可分配的内存</p>
-
-<pre><code>kubectl get no -o json | jq -r '.items | sort_by(.status.capacity.memory)[]|[.metadata.name,.status.capacity.memory]| @tsv'
-</code></pre>
-
-<p><strong>危险</strong> 删除不是 running 的 pod</p>
-
-<pre><code>kubectl get po --all-namespaces -o json --field-selector=&quot;status.phase!=Running&quot; | jq  '.items[]  | &quot;kubectl delete po \(.metadata.name) -n \(.metadata.namespace)&quot;' | xargs -n 1 bash -c
-</code></pre>
-
-<p>获取每个 node 上的 pod 数量</p>
-
-<pre><code>kubectl get po -o json --all-namespaces | jq '.items | group_by(.spec.nodeName) | map({&quot;nodeName&quot;: .[0].spec.nodeName, &quot;count&quot;: length}) | sort_by(.count)'
-</code></pre>
-
-<p>以列的方式输出 label</p>
-
-<pre><code>kubectl get no -Lbeta.kubernetes.io/instance-type -Lfailure-domain.beta.kubernetes.io/zone
-
-kubectl get po -l managed-by=redis-cluster-operator -LstatefulSet
-</code></pre>
-
-<p>获取 container 资源限制</p>
-
-<pre><code>kubectl get pods -o json -n kube-system | jq -r '.items[] | .metadata.name + &quot; \n Container name: &quot; + .spec.containers[].name + &quot; \n Req. RAM: &quot; + .spec.containers[].resources.requests.memory + &quot; \n Lim. RAM: &quot; + .spec.containers[].resources.limits.memory + &quot; \n Req. CPU: &quot; + .spec.containers[].resources.requests.cpu + &quot; \n Lim. CPU: &quot; + .spec.containers[].resources.limits.cpu + &quot; \n Req. Eph. DISK: &quot; + .spec.containers[].resources.requests[&quot;ephemeral-storage&quot;] + &quot; \n Lim. Eph. DISK: &quot; + .spec.containers[].resources.limits[&quot;ephemeral-storage&quot;] + &quot;\n&quot;'
-</code></pre>
-
-<p>base64 解码 secret</p>
-
-<pre><code>kubectl get secret my-secrets -o json | jq -r '.data | map_values(@base64d)'
-</code></pre>
-
-<h3 id="多个-pod-多个-container-日志">多个 pod 多个 container 日志</h3>
-
-<p><a href="https://github.com/wercker/stern">stern</a></p>
-
-<pre><code>➜ brew install stern
-➜ ln -s /usr/local/bin/stern /usr/local/bin/kubectl-tail
-➜ kc tail drc
-</code></pre>
-
-<h3 id="grep">grep</h3>
-
-<pre><code>➜ kc krew install grep
-➜ kc grep pod drc
-</code></pre>
-
-<h3 id="debug">debug</h3>
-
-<p><a href="https://github.com/aylei/kubectl-debug">kubectl-debug</a></p>
-
-<h3 id="自动进入-namespace">自动进入 namespace</h3>
-
-<p>将脚本注入当前 shell, 将 k 当作 kubectl 来用，只是不需要输入命名空间，它会调用 kubectl 并自动加上上次使用的非默认的命名空间，如果想切换命名空间，再常规的使用一次 kubectl 就行。</p>
-
-<h4 id="bash">bash</h4>
-
-<pre><code>function k() {
-    cmdline=`HISTTIMEFORMAT=&quot;&quot; history | awk '$2 == &quot;kubectl&quot; &amp;&amp; (/-n/ || /--namespace/) {for(i=2;i&lt;=NF;i++)printf(&quot;%s &quot;,$i);print &quot;&quot;}' | tail -n 1`
-    regs=('\-n [\w\-\d]+' '\-n=[\w\-\d]+' '\-\-namespace [\w\-\d]+' '\-\-namespace=[\w\-\d]+')
-    for i in &quot;${!regs[@]}&quot;; do
-        reg=${regs[i]}
-        nsarg=`echo $cmdline | grep -o -P &quot;$reg&quot;`
-        if [[ &quot;$nsarg&quot; == &quot;&quot; ]]; then
-            continue
-        fi
-        cmd=&quot;kubectl $nsarg $@&quot;
-        echo &quot;$cmd&quot;
-        $cmd
-        return
-    done
-    cmd=&quot;kubectl $@&quot;
-    echo &quot;$cmd&quot;
-    $cmd
+<pre><code>// Interface captures the set of operations for generically interacting with Kubernetes REST apis.
+type Interface interface {
+	GetRateLimiter() flowcontrol.RateLimiter
+	Verb(verb string) *Request
+	Post() *Request
+	Put() *Request
+	Patch(pt types.PatchType) *Request
+	Get() *Request
+	Delete() *Request
+	APIVersion() schema.GroupVersion
 }
 </code></pre>
 
-<h4 id="zsh">zsh</h4>
+<p>使用 rest client 操作 deployments</p>
 
-<pre><code>function k() {
-    cmdline=`HISTTIMEFORMAT=&quot;&quot; history | awk '$2 == &quot;kubectl&quot; &amp;&amp; (/-n/ || /--namespace/) {for(i=2;i&lt;=NF;i++)printf(&quot;%s &quot;,$i);print &quot;&quot;}' | tail -n 1`
-    regs=('\-n [\w\-\d]+' '\-n=[\w\-\d]+' '--namespace [\w\-\d]+' '--namespace=[\w\-\d]+')
-	for i in $regs; do
-        reg=$i
-        nsarg=`echo $cmdline | grep -o -e &quot;$reg&quot;`
-        if [[ &quot;$nsarg&quot; == &quot;&quot; ]]; then
-            continue
-        fi
-        cmd=&quot;kubectl $nsarg $@&quot;
-        echo &quot;$cmd&quot;
-        $cmd
-        return
-    done
-    cmd=&quot;kubectl $@&quot;
-    echo &quot;$cmd&quot;
-    kubectl $@
+<pre><code>config := obtainConfig()
+config.GroupVersion = &amp;schema.GroupVersion{Group: &quot;apps&quot;, Version: &quot;v1&quot;}
+config.APIPath = &quot;/apis&quot;
+config.NegotiatedSerializer = scheme.Codecs.WithoutConversion()
+
+if config.UserAgent == &quot;&quot; {
+	config.UserAgent = rest.DefaultKubernetesUserAgent()
+}
+
+client, err := rest.RESTClientFor(config)
+if err != nil {
+	panic(err)
+}
+
+
+// Get takes name of the deployment, and returns the corresponding deployment object
+result := &amp;appsv1.Deployment{}
+err = client.Get().
+	Namespace(&quot;shu&quot;).
+	Resource(&quot;deployments&quot;).
+	Name(&quot;test&quot;).
+	Do().
+	Into(result)
+</code></pre>
+
+<h3 id="k8s-io-client-go-kubernetes-typed-clients">k8s.io/client-go/kubernetes Typed clients</h3>
+
+<p>Typed clients 集合了集群自带资源的 rest client，通过 <a href="k8s.io/code-generator/generate-groups.sh">code-generator</a> 自动生成</p>
+
+<pre><code>type Interface interface {
+	Discovery() discovery.DiscoveryInterface
+	AdmissionregistrationV1() admissionregistrationv1.AdmissionregistrationV1Interface
+	AdmissionregistrationV1beta1() admissionregistrationv1beta1.AdmissionregistrationV1beta1Interface
+	AppsV1() appsv1.AppsV1Interface
+	AppsV1beta1() appsv1beta1.AppsV1beta1Interface
+	AppsV1beta2() appsv1beta2.AppsV1beta2Interface
+	AuditregistrationV1alpha1() auditregistrationv1alpha1.AuditregistrationV1alpha1Interface
+	AuthenticationV1() authenticationv1.AuthenticationV1Interface
+	AuthenticationV1beta1() authenticationv1beta1.AuthenticationV1beta1Interface
+	AuthorizationV1() authorizationv1.AuthorizationV1Interface
+	AuthorizationV1beta1() authorizationv1beta1.AuthorizationV1beta1Interface
+	AutoscalingV1() autoscalingv1.AutoscalingV1Interface
+	AutoscalingV2beta1() autoscalingv2beta1.AutoscalingV2beta1Interface
+	AutoscalingV2beta2() autoscalingv2beta2.AutoscalingV2beta2Interface
+	BatchV1() batchv1.BatchV1Interface
+	BatchV1beta1() batchv1beta1.BatchV1beta1Interface
+	BatchV2alpha1() batchv2alpha1.BatchV2alpha1Interface
+	CertificatesV1beta1() certificatesv1beta1.CertificatesV1beta1Interface
+	CoordinationV1beta1() coordinationv1beta1.CoordinationV1beta1Interface
+	CoordinationV1() coordinationv1.CoordinationV1Interface
+	CoreV1() corev1.CoreV1Interface
+	DiscoveryV1alpha1() discoveryv1alpha1.DiscoveryV1alpha1Interface
+	DiscoveryV1beta1() discoveryv1beta1.DiscoveryV1beta1Interface
+	EventsV1beta1() eventsv1beta1.EventsV1beta1Interface
+	ExtensionsV1beta1() extensionsv1beta1.ExtensionsV1beta1Interface
+	FlowcontrolV1alpha1() flowcontrolv1alpha1.FlowcontrolV1alpha1Interface
+	NetworkingV1() networkingv1.NetworkingV1Interface
+	NetworkingV1beta1() networkingv1beta1.NetworkingV1beta1Interface
+	NodeV1alpha1() nodev1alpha1.NodeV1alpha1Interface
+	NodeV1beta1() nodev1beta1.NodeV1beta1Interface
+	PolicyV1beta1() policyv1beta1.PolicyV1beta1Interface
+	RbacV1() rbacv1.RbacV1Interface
+	RbacV1beta1() rbacv1beta1.RbacV1beta1Interface
+	RbacV1alpha1() rbacv1alpha1.RbacV1alpha1Interface
+	SchedulingV1alpha1() schedulingv1alpha1.SchedulingV1alpha1Interface
+	SchedulingV1beta1() schedulingv1beta1.SchedulingV1beta1Interface
+	SchedulingV1() schedulingv1.SchedulingV1Interface
+	SettingsV1alpha1() settingsv1alpha1.SettingsV1alpha1Interface
+	StorageV1beta1() storagev1beta1.StorageV1beta1Interface
+	StorageV1() storagev1.StorageV1Interface
+	StorageV1alpha1() storagev1alpha1.StorageV1alpha1Interface
 }
 </code></pre>
 
-<h3 id="别名">别名</h3>
-
-<p>对于一些常用的 kubectl 命令组合可以设置成别名，比如把 kubectl describe alias 成 kd，不过有了 kubectl 自动补全，我一般不怎么使用别名，就只是把 kubectl alias 成了 kc，我查了 ohmyzsh 对常见 kubectl 命令组合设置的别名列表，提供给大家做个参考：</p>
-
-<table>
-<thead>
-<tr>
-<th align="left">Alias</th>
-<th align="left">Command</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="left">k</td>
-<td align="left"><code>kubectl</code></td>
-<td align="left">The kubectl command</td>
-</tr>
-
-<tr>
-<td align="left">kca</td>
-<td align="left"><code>kubectl --all-namespaces</code></td>
-<td align="left">The kubectl command targeting all namespaces</td>
-</tr>
-
-<tr>
-<td align="left">kaf</td>
-<td align="left"><code>kubectl apply -f</code></td>
-<td align="left">Apply a YML file</td>
-</tr>
-
-<tr>
-<td align="left">keti</td>
-<td align="left"><code>kubectl exec -ti</code></td>
-<td align="left">Drop into an interactive terminal on a container</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Manage configuration quickly to switch contexts between local, dev and staging</strong></td>
-</tr>
-
-<tr>
-<td align="left">kcuc</td>
-<td align="left"><code>kubectl config use-context</code></td>
-<td align="left">Set the current-context in a kubeconfig file</td>
-</tr>
-
-<tr>
-<td align="left">kcsc</td>
-<td align="left"><code>kubectl config set-context</code></td>
-<td align="left">Set a context entry in kubeconfig</td>
-</tr>
-
-<tr>
-<td align="left">kcdc</td>
-<td align="left"><code>kubectl config delete-context</code></td>
-<td align="left">Delete the specified context from the kubeconfig</td>
-</tr>
-
-<tr>
-<td align="left">kccc</td>
-<td align="left"><code>kubectl config current-context</code></td>
-<td align="left">Display the current-context</td>
-</tr>
-
-<tr>
-<td align="left">kcgc</td>
-<td align="left"><code>kubectl config get-contexts</code></td>
-<td align="left">List of contexts available</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>General aliases</strong></td>
-</tr>
-
-<tr>
-<td align="left">kdel</td>
-<td align="left"><code>kubectl delete</code></td>
-<td align="left">Delete resources by filenames, stdin, resources and names, or by resources and label selector</td>
-</tr>
-
-<tr>
-<td align="left">kdelf</td>
-<td align="left"><code>kubectl delete -f</code></td>
-<td align="left">Delete a pod using the type and name specified in -f argument</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Pod management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgp</td>
-<td align="left"><code>kubectl get pods</code></td>
-<td align="left">List all pods in ps output format</td>
-</tr>
-
-<tr>
-<td align="left">kgpw</td>
-<td align="left"><code>kgp --watch</code></td>
-<td align="left">After listing/getting the requested object, watch for changes</td>
-</tr>
-
-<tr>
-<td align="left">kgpwide</td>
-<td align="left"><code>kgp -o wide</code></td>
-<td align="left">Output in plain-text format with any additional information. For pods, the node name is included</td>
-</tr>
-
-<tr>
-<td align="left">kep</td>
-<td align="left"><code>kubectl edit pods</code></td>
-<td align="left">Edit pods from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kdp</td>
-<td align="left"><code>kubectl describe pods</code></td>
-<td align="left">Describe all pods</td>
-</tr>
-
-<tr>
-<td align="left">kdelp</td>
-<td align="left"><code>kubectl delete pods</code></td>
-<td align="left">Delete all pods matching passed arguments</td>
-</tr>
-
-<tr>
-<td align="left">kgpl</td>
-<td align="left"><code>kgp -l</code></td>
-<td align="left">Get pod by label. Example: <code>kgpl &quot;app=myapp&quot; -n myns</code></td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Service management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgs</td>
-<td align="left"><code>kubectl get svc</code></td>
-<td align="left">List all services in ps output format</td>
-</tr>
-
-<tr>
-<td align="left">kgsw</td>
-<td align="left"><code>kgs --watch</code></td>
-<td align="left">After listing all services, watch for changes</td>
-</tr>
-
-<tr>
-<td align="left">kgswide</td>
-<td align="left"><code>kgs -o wide</code></td>
-<td align="left">After listing all services, output in plain-text format with any additional information</td>
-</tr>
-
-<tr>
-<td align="left">kes</td>
-<td align="left"><code>kubectl edit svc</code></td>
-<td align="left">Edit services(svc) from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kds</td>
-<td align="left"><code>kubectl describe svc</code></td>
-<td align="left">Describe all services in detail</td>
-</tr>
-
-<tr>
-<td align="left">kdels</td>
-<td align="left"><code>kubectl delete svc</code></td>
-<td align="left">Delete all services matching passed argument</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Ingress management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgi</td>
-<td align="left"><code>kubectl get ingress</code></td>
-<td align="left">List ingress resources in ps output format</td>
-</tr>
-
-<tr>
-<td align="left">kei</td>
-<td align="left"><code>kubectl edit ingress</code></td>
-<td align="left">Edit ingress resource from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kdi</td>
-<td align="left"><code>kubectl describe ingress</code></td>
-<td align="left">Describe ingress resource in detail</td>
-</tr>
-
-<tr>
-<td align="left">kdeli</td>
-<td align="left"><code>kubectl delete ingress</code></td>
-<td align="left">Delete ingress resources matching passed argument</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Namespace management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgns</td>
-<td align="left"><code>kubectl get namespaces</code></td>
-<td align="left">List the current namespaces in a cluster</td>
-</tr>
-
-<tr>
-<td align="left">kcn</td>
-<td align="left"><code>kubectl config set-context ...</code></td>
-<td align="left">Change current namespace</td>
-</tr>
-
-<tr>
-<td align="left">kens</td>
-<td align="left"><code>kubectl edit namespace</code></td>
-<td align="left">Edit namespace resource from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kdns</td>
-<td align="left"><code>kubectl describe namespace</code></td>
-<td align="left">Describe namespace resource in detail</td>
-</tr>
-
-<tr>
-<td align="left">kdelns</td>
-<td align="left"><code>kubectl delete namespace</code></td>
-<td align="left">Delete the namespace. WARNING! This deletes everything in the namespace</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>ConfigMap management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgcm</td>
-<td align="left"><code>kubectl get configmaps</code></td>
-<td align="left">List the configmaps in ps output format</td>
-</tr>
-
-<tr>
-<td align="left">kecm</td>
-<td align="left"><code>kubectl edit configmap</code></td>
-<td align="left">Edit configmap resource from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kdcm</td>
-<td align="left"><code>kubectl describe configmap</code></td>
-<td align="left">Describe configmap resource in detail</td>
-</tr>
-
-<tr>
-<td align="left">kdelcm</td>
-<td align="left"><code>kubectl delete configmap</code></td>
-<td align="left">Delete the configmap</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Secret management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgsec</td>
-<td align="left"><code>kubectl get secret</code></td>
-<td align="left">Get secret for decoding</td>
-</tr>
-
-<tr>
-<td align="left">kdsec</td>
-<td align="left"><code>kubectl describe secret</code></td>
-<td align="left">Describe secret resource in detail</td>
-</tr>
-
-<tr>
-<td align="left">kdelsec</td>
-<td align="left"><code>kubectl delete secret</code></td>
-<td align="left">Delete the secret</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Deployment management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgd</td>
-<td align="left"><code>kubectl get deployment</code></td>
-<td align="left">Get the deployment</td>
-</tr>
-
-<tr>
-<td align="left">kgdw</td>
-<td align="left"><code>kgd --watch</code></td>
-<td align="left">After getting the deployment, watch for changes</td>
-</tr>
-
-<tr>
-<td align="left">kgdwide</td>
-<td align="left"><code>kgd -o wide</code></td>
-<td align="left">After getting the deployment, output in plain-text format with any additional information</td>
-</tr>
-
-<tr>
-<td align="left">ked</td>
-<td align="left"><code>kubectl edit deployment</code></td>
-<td align="left">Edit deployment resource from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kdd</td>
-<td align="left"><code>kubectl describe deployment</code></td>
-<td align="left">Describe deployment resource in detail</td>
-</tr>
-
-<tr>
-<td align="left">kdeld</td>
-<td align="left"><code>kubectl delete deployment</code></td>
-<td align="left">Delete the deployment</td>
-</tr>
-
-<tr>
-<td align="left">ksd</td>
-<td align="left"><code>kubectl scale deployment</code></td>
-<td align="left">Scale a deployment</td>
-</tr>
-
-<tr>
-<td align="left">krsd</td>
-<td align="left"><code>kubectl rollout status deployment</code></td>
-<td align="left">Check the rollout status of a deployment</td>
-</tr>
-
-<tr>
-<td align="left">kres</td>
-<td align="left"><code>kubectl set env $@ REFRESHED_AT=...</code></td>
-<td align="left">Recreate all pods in deployment with zero-downtime</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Rollout management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgrs</td>
-<td align="left"><code>kubectl get rs</code></td>
-<td align="left">To see the ReplicaSet <code>rs</code> created by the deployment</td>
-</tr>
-
-<tr>
-<td align="left">krh</td>
-<td align="left"><code>kubectl rollout history</code></td>
-<td align="left">Check the revisions of this deployment</td>
-</tr>
-
-<tr>
-<td align="left">kru</td>
-<td align="left"><code>kubectl rollout undo</code></td>
-<td align="left">Rollback to the previous revision</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Port forwarding</strong></td>
-</tr>
-
-<tr>
-<td align="left">kpf</td>
-<td align="left"><code>kubectl port-forward</code></td>
-<td align="left">Forward one or more local ports to a pod</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Tools for accessing all information</strong></td>
-</tr>
-
-<tr>
-<td align="left">kga</td>
-<td align="left"><code>kubectl get all</code></td>
-<td align="left">List all resources in ps format</td>
-</tr>
-
-<tr>
-<td align="left">kgaa</td>
-<td align="left"><code>kubectl get all --all-namespaces</code></td>
-<td align="left">List the requested object(s) across all namespaces</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Logs</strong></td>
-</tr>
-
-<tr>
-<td align="left">kl</td>
-<td align="left"><code>kubectl logs</code></td>
-<td align="left">Print the logs for a container or resource</td>
-</tr>
-
-<tr>
-<td align="left">klf</td>
-<td align="left"><code>kubectl logs -f</code></td>
-<td align="left">Stream the logs for a container or resource (follow)</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>File copy</strong></td>
-</tr>
-
-<tr>
-<td align="left">kcp</td>
-<td align="left"><code>kubectl cp</code></td>
-<td align="left">Copy files and directories to and from containers</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Node management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgno</td>
-<td align="left"><code>kubectl get nodes</code></td>
-<td align="left">List the nodes in ps output format</td>
-</tr>
-
-<tr>
-<td align="left">keno</td>
-<td align="left"><code>kubectl edit node</code></td>
-<td align="left">Edit nodes resource from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kdno</td>
-<td align="left"><code>kubectl describe node</code></td>
-<td align="left">Describe node resource in detail</td>
-</tr>
-
-<tr>
-<td align="left">kdelno</td>
-<td align="left"><code>kubectl delete node</code></td>
-<td align="left">Delete the node</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"><strong>Persistent Volume Claim management</strong></td>
-</tr>
-
-<tr>
-<td align="left">kgpvc</td>
-<td align="left"><code>kubectl get pvc</code></td>
-<td align="left">List all PVCs</td>
-</tr>
-
-<tr>
-<td align="left">kgpvcw</td>
-<td align="left"><code>kgpvc --watch</code></td>
-<td align="left">After listing/getting the requested object, watch for changes</td>
-</tr>
-
-<tr>
-<td align="left">kepvc</td>
-<td align="left"><code>kubectl edit pvc</code></td>
-<td align="left">Edit pvcs from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kdpvc</td>
-<td align="left"><code>kubectl describe pvc</code></td>
-<td align="left">Descirbe all pvcs</td>
-</tr>
-
-<tr>
-<td align="left">kdelpvc</td>
-<td align="left"><code>kubectl delete pvc</code></td>
-<td align="left">Delete all pvcs matching passed arguments</td>
-</tr>
-
-<tr>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-
-<tr>
-<td align="left">kgss</td>
-<td align="left"><code>kubectl get statefulset</code></td>
-<td align="left">List the statefulsets in ps format</td>
-</tr>
-
-<tr>
-<td align="left">kgssw</td>
-<td align="left"><code>kgss --watch</code></td>
-<td align="left">After getting the list of statefulsets, watch for changes</td>
-</tr>
-
-<tr>
-<td align="left">kgsswide</td>
-<td align="left"><code>kgss -o wide</code></td>
-<td align="left">After getting the statefulsets, output in plain-text format with any additional information</td>
-</tr>
-
-<tr>
-<td align="left">kess</td>
-<td align="left"><code>kubectl edit statefulset</code></td>
-<td align="left">Edit statefulset resource from the default editor</td>
-</tr>
-
-<tr>
-<td align="left">kdss</td>
-<td align="left"><code>kubectl describe statefulset</code></td>
-<td align="left">Describe statefulset resource in detail</td>
-</tr>
-
-<tr>
-<td align="left">kdelss</td>
-<td align="left"><code>kubectl delete statefulset</code></td>
-<td align="left">Delete the statefulset</td>
-</tr>
-
-<tr>
-<td align="left">ksss</td>
-<td align="left"><code>kubectl scale statefulset</code></td>
-<td align="left">Scale a statefulset</td>
-</tr>
-
-<tr>
-<td align="left">krsss</td>
-<td align="left"><code>kubectl rollout status statefulset</code></td>
-<td align="left">Check the rollout status of a deployment</td>
-</tr>
-</tbody>
-</table>
-
-<p>另外 Github 上有一个 <a href="https://github.com/ahmetb/kubectl-aliases">kubectl-aliases</a>项目，提供了一个 800 多个别名列表，感兴趣可以试下别名多了，命令行会不会卡。</p>
-
-<h3 id="进入指定-pod-netns">进入指定 POD netns</h3>
-
-<pre><code>function e() {
-    set -eu
-    ns=${1-&quot;default&quot;}
-    podName=$2
-    containter=`kubectl -n $ns describe pod $podName | grep -A10 &quot;^Containers:&quot; | grep -Eo 'docker://.*$' | head -n 1 | sed 's/docker:\/\/\(.*\)$/\1/'`
-    node=`kubectl -n $ns get pod $podName -ojson | jq .spec.nodeName | tr -d &quot;\&quot;&quot;`
-    echo &quot;entering $node/$ns/$podName $containter&quot;
-    containterPID=`ssh root@$node &quot;docker inspect -f {{.State.Pid}} $containter&quot;`
-    echo &quot;entering containter PID $containterPID&quot;
-    ssh -t root@$node &quot;nsenter -t $containterPID -n&quot;
+<p>使用 Typed clients 操作 deployments</p>
+
+<pre><code>config := obtainConfig()
+// create the clientset
+clientset, err := kubernetes.NewForConfig(config)
+if err != nil {
+	panic(err.Error())
 }
+result, err := clientset.AppsV1().Deployments(&quot;shu&quot;).Get(&quot;test&quot;, metav1.GetOptions{})
 </code></pre>
 
-<h3 id="持续交付">持续交付</h3>
+<h3 id="k8s-io-client-go-dynamic-dynamic-client">k8s.io/client-go/dynamic Dynamic client</h3>
 
-<p><a href="https://skaffold.dev/">skaffold</a> 是谷歌开源的简化本地 Kubernetes 应用开发的工具。它将构建镜像、推送镜像以及部署 Kubernetes 服务等流程自动化，可以方便地对 Kubernetes 应用进行持续开发。</p>
+<p>根据 YAML 或者 JSON 文件动态生成 Rest client</p>
 
-<p><a href="https://github.com/kubernetes-sigs/kustomize">kustomize</a> kustomize 是 kubernetes 原生的配置管理，以无模板方式来定制应用的配置。kustomize 使用 k8s 原生概念帮助创建并复用资源配置(YAML)，允许用户以一个应用描述文件 （YAML 文件）为基础（Base YAML），然后通过 Overlay 的方式生成最终部署应用所需的描述文件。</p>
+<pre><code>const deploymentYAML = `
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: shu
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+`
 
-<h2 id="附录">附录</h2>
+func dynamicClient() error {
+	cfg := obtainConfig()
+	decUnstructured := yaml.NewDecodingSerializer(unstructured.UnstructuredJSONScheme)
 
-<p><a href="https://github.com/dennyzhang/cheatsheet-kubernetes-A4/blob/master/cheatsheet-kubernetes-A4.pdf">kubectl-cheatsheet</a></p>
+	// 1. 创建 Discovery Client，为寻找 GVR 做准备
+	dc, err := discovery.NewDiscoveryClientForConfig(cfg)
+	if err != nil {
+		return err
+	}
+	mapper := restmapper.NewDeferredDiscoveryRESTMapper(memory.NewMemCacheClient(dc))
 
-<h5 id="寻找-kubectl-plugins">寻找 kubectl plugins</h5>
+	// 2. 创建 Dynamic client
+	dyn, err := dynamic.NewForConfig(cfg)
+	if err != nil {
+		return err
+	}
 
-<p><a href="https://github.com/topics/kubectl-plugins">github</a>
-kubectl krew search
-<a href="https://github.com/ishantanu/awesome-kubectl-plugins">kubectl-plugins</a></p>
+	// 3. 将 YAML manifest 编码为 unstructured.Unstructured
+	obj := &amp;unstructured.Unstructured{}
+	_, gvk, err := decUnstructured.Decode([]byte(deploymentYAML), nil, obj)
+	if err != nil {
+		return err
+	}
 
-<h5 id="终极杀器">终极杀器</h5>
+	// 4. 根据 GVK 查找 GVR 
+	mapping, err := mapper.RESTMapping(gvk.GroupKind(), gvk.Version)
+	if err != nil {
+		return err
+	}
 
-<p><a href="https://github.com/c-bata/kube-prompt">kube-prompt</a>
-<a href="https://github.com/derailed/k9s">k9s</a></p>
+	// 5. 使用 GVR 生成 Rest client
+	var dr dynamic.ResourceInterface
+	if mapping.Scope.Name() == meta.RESTScopeNameNamespace {
+		// namespaced resources should specify the namespace
+		dr = dyn.Resource(mapping.Resource).Namespace(obj.GetNamespace())
+	} else {
+		// for cluster-wide resources
+		dr = dyn.Resource(mapping.Resource)
+	}
 
-<h2 id="参考">参考</h2>
-
-<p><a href="https://learnk8s.io/blog/kubectl-productivity">https://learnk8s.io/blog/kubectl-productivity</a>
-<a href="https://gist.github.com/so0k/42313dbb3b547a0f51a547bb968696ba">https://gist.github.com/so0k/42313dbb3b547a0f51a547bb968696ba</a>
-<a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/">https://kubernetes.io/docs/reference/kubectl/cheatsheet/</a></p>
+	_, err = dr.Create(obj, metav1.CreateOptions{})
+	if err != nil {
+		return err
+	}
+	return err
+}
+</code></pre>
 
 
                 <br>
@@ -2030,15 +1449,10 @@ kubectl krew search
                     
                     <div>
                         <img class="icon" src="http://fishu.cn/img/back.svg" alt="back" />
-                        <a href="http://fishu.cn/blog/date-%E5%91%BD%E4%BB%A4%E4%B8%80%E8%A7%88/">date 命令一览</a>
+                        <a href="http://fishu.cn/blog/kubectl-%E6%95%88%E7%8E%87%E6%8C%87%E5%8D%97/">Kubectl 效率指南</a>
                     </div>
                     
                     <div style="width: 100%;"></div>
-                    
-                    <div>
-                        <a href="http://fishu.cn/blog/client-go-%E4%B8%AD%E7%9A%84-client/">client-go 中的 client</a>
-                        <img class="icon" src="http://fishu.cn/img/next.svg" alt="next" />
-                    </div>
                     
                 </div>
             
